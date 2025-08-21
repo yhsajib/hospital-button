@@ -1,0 +1,455 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String    @id @default(uuid())
+  clerkUserId       String    @unique // Clerk's user ID
+  email             String    @unique
+  name              String?
+  imageUrl          String?
+  role              UserRole  @default(UNASSIGNED) // UNASSIGNED, PATIENT, DOCTOR, ADMIN
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  // Patient-specific fields
+  credits           Int       @default(2) // Accumulated credit balance
+  
+  // Doctor-specific fields
+  specialty         String?
+  experience        Int?      // Years of experience
+  credentialUrl     String?   // Document URL
+  description       String?   @db.Text
+  verificationStatus VerificationStatus?  @default(PENDING)
+  
+  // Relations
+  patientAppointments Appointment[] @relation("PatientAppointments")
+  doctorAppointments  Appointment[] @relation("DoctorAppointments")
+  availabilities      Availability[]
+  transactions        CreditTransaction[]
+  payouts             Payout[]
+  orders              Order[]
+  cabinBookings       CabinBooking[]    @relation("PatientCabinBookings")
+  testReports         TestReport[]
+}
+
+enum UserRole {
+  UNASSIGNED
+  PATIENT
+  DOCTOR
+  ADMIN
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+model Availability {
+  id        String   @id @default(uuid())
+  doctorId  String
+  doctor    User     @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  startTime DateTime
+  endTime   DateTime
+  status    SlotStatus @default(AVAILABLE)
+  
+  @@index([doctorId, startTime])
+}
+
+enum SlotStatus {
+  AVAILABLE
+  BOOKED
+  BLOCKED
+}
+
+model Appointment {
+  id                String   @id @default(uuid())
+  patientId         String
+  patient           User     @relation("PatientAppointments", fields: [patientId], references: [id])
+  doctorId          String
+  doctor            User     @relation("DoctorAppointments", fields: [doctorId], references: [id])
+  startTime         DateTime // Start time of appointment
+  endTime           DateTime // End time of appointment
+  status            AppointmentStatus @default(SCHEDULED)
+  notes             String?  @db.Text
+  patientDescription String? @db.Text  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([status, startTime])
+  @@index([doctorId, startTime])
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+}
+
+model CreditTransaction {
+  id                String   @id @default(uuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount            Int      // Positive for additions, negative for usage
+  type              TransactionType
+  packageId         String?  // Reference to which package was purchased
+  createdAt         DateTime @default(now())
+}
+
+enum TransactionType {
+  CREDIT_PURCHASE     // Credits purchased through Clerk Billing
+  APPOINTMENT_DEDUCTION // Credit used for appointment
+  ADMIN_ADJUSTMENT      // Manual adjustment by admin
+}
+
+model Payout {
+  id              String        @id @default(uuid())
+  doctorId        String
+  doctor          User          @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  amount          Float         // Total payout amount in USD
+  credits         Int           // Number of credits being paid out
+  platformFee     Float         // Platform fee deducted (2 USD per credit)
+  netAmount       Float         // Amount doctor receives (8 USD per credit)
+  paypalEmail     String        // Doctor's PayPal email for payout
+  status          PayoutStatus  @default(PROCESSING)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  processedAt     DateTime?     // When admin marked it as processed
+  processedBy     String?       // Admin who processed it
+
+  @@index([status, createdAt])
+  @@index([doctorId, status])
+}
+
+enum PayoutStatus {
+  PROCESSING
+  PROCESSED
+}
+
+model Medicine {
+  id          String   @id @default(uuid())
+  name        String
+  genericName String
+  brandName   String
+  description String   @db.Text
+  price       Float
+  stock       Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  orderItems  OrderItem[]
+}
+
+model Order {
+  id              String      @id @default(uuid())
+  orderNumber     String      @unique // Human-readable order number
+  customerId      String?
+  customer        User?       @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  
+  // Customer information (for guest orders)
+  customerName    String
+  customerEmail   String
+  customerPhone   String?
+  
+  // Shipping information
+  shippingAddress String      @db.Text
+  shippingCity    String
+  shippingState   String?
+  shippingZip     String
+  shippingCountry String      @default("Bangladesh")
+  
+  // Order details
+  status          OrderStatus @default(PENDING)
+  totalAmount     Float
+  shippingCost    Float       @default(0)
+  taxAmount       Float       @default(0)
+  discountAmount  Float       @default(0)
+  
+  // Payment information
+  paymentMethod   String?
+  paymentStatus   PaymentStatus @default(PENDING)
+  paidAt          DateTime?
+  
+  // Order tracking
+  notes           String?     @db.Text
+  trackingNumber  String?
+  estimatedDelivery DateTime?
+  deliveredAt     DateTime?
+  
+  // Timestamps
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  // Relations
+  orderItems      OrderItem[]
+  
+  @@index([status, createdAt])
+  @@index([customerId, createdAt])
+  @@index([orderNumber])
+}
+
+model OrderItem {
+  id          String   @id @default(uuid())
+  orderId     String
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  medicineId  String
+  medicine    Medicine @relation(fields: [medicineId], references: [id], onDelete: Restrict)
+  
+  quantity    Int
+  unitPrice   Float    // Price at time of order
+  totalPrice  Float    // quantity * unitPrice
+  
+  createdAt   DateTime @default(now())
+  
+  @@index([orderId])
+  @@index([medicineId])
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+model Cabin {
+  id              String        @id @default(uuid())
+  name            String
+  description     String        @db.Text
+  type            CabinType     @default(STANDARD)
+  capacity        Int           // Number of beds/patients
+  pricePerNight   Float
+  amenities       String[]      // Array of amenities
+  imageUrls       String[]      // Array of image URLs
+  isActive        Boolean       @default(true)
+  
+  // Location details
+  floor           String?
+  wing            String?
+  roomNumber      String?
+  
+  // Features
+  hasPrivateBathroom Boolean    @default(false)
+  hasAirConditioning Boolean    @default(false)
+  hasWifi         Boolean       @default(true)
+  hasTV           Boolean       @default(false)
+  hasRefrigerator Boolean       @default(false)
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  // Relations
+  bookings        CabinBooking[]
+  availabilities  CabinAvailability[]
+  
+  @@index([type, isActive])
+  @@index([pricePerNight])
+}
+
+model CabinBooking {
+  id              String            @id @default(uuid())
+  bookingNumber   String            @unique // Human-readable booking number
+  
+  // Cabin and Patient
+  cabinId         String
+  cabin           Cabin             @relation(fields: [cabinId], references: [id], onDelete: Restrict)
+  patientId       String
+  patient         User              @relation("PatientCabinBookings", fields: [patientId], references: [id], onDelete: Cascade)
+  
+  // Booking dates
+  checkInDate     DateTime
+  checkOutDate    DateTime
+  numberOfNights  Int
+  
+  // Guest information
+  guestName       String
+  guestPhone      String?
+  guestEmail      String?
+  numberOfGuests  Int               @default(1)
+  
+  // Booking details
+  status          CabinBookingStatus @default(PENDING)
+  totalAmount     Float
+  paidAmount      Float             @default(0)
+  paymentStatus   PaymentStatus     @default(PENDING)
+  paymentMethod   String?
+  
+  // Special requests
+  specialRequests String?           @db.Text
+  notes           String?           @db.Text
+  
+  // Timestamps
+  bookedAt        DateTime          @default(now())
+  confirmedAt     DateTime?
+  cancelledAt     DateTime?
+  checkInTime     DateTime?
+  checkOutTime    DateTime?
+  
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  
+  @@index([status, checkInDate])
+  @@index([patientId, status])
+  @@index([cabinId, checkInDate])
+  @@index([bookingNumber])
+}
+
+enum CabinType {
+  STANDARD
+  DELUXE
+  SUITE
+  VIP
+  ICU
+  PRIVATE_ROOM
+}
+
+enum CabinBookingStatus {
+  PENDING
+  CONFIRMED
+  CHECKED_IN
+  CHECKED_OUT
+  CANCELLED
+  NO_SHOW
+}
+
+model CabinAvailability {
+  id          String    @id @default(uuid())
+  cabinId     String
+  cabin       Cabin     @relation(fields: [cabinId], references: [id], onDelete: Cascade)
+  
+  startDate   DateTime  // Start of availability period
+  endDate     DateTime  // End of availability period
+  isActive    Boolean   @default(true)
+  
+  // Optional: reason for unavailability (maintenance, etc.)
+  reason      String?
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  @@index([cabinId, startDate, endDate])
+  @@index([startDate, endDate])
+}
+
+// Test Report System Models
+model TestType {
+  id          String   @id @default(uuid())
+  name        String   @unique // e.g., "Blood Test", "X-Ray", "MRI", "CT Scan"
+  category    String   // e.g., "Laboratory", "Radiology", "Pathology"
+  description String?  @db.Text
+  normalRanges String? @db.Text // JSON string of normal ranges for parameters
+  isActive    Boolean  @default(true)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  testReports TestReport[]
+  
+  @@index([category, isActive])
+}
+
+model TestReport {
+  id              String        @id @default(uuid())
+  reportNumber    String        @unique // Human-readable report number
+  
+  // Patient and Test Information
+  patientId       String
+  patient         User          @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  testTypeId      String
+  testType        TestType      @relation(fields: [testTypeId], references: [id], onDelete: Restrict)
+  
+  // Test Details
+  testDate        DateTime      // When the test was conducted
+  reportDate      DateTime      // When the report was generated
+  status          TestReportStatus @default(PENDING)
+  
+  // Doctor Information
+  conductedBy     String?       // Doctor who conducted the test
+  reviewedBy      String?       // Doctor who reviewed the report
+  
+  // Report Content
+  summary         String?       @db.Text
+  findings        String?       @db.Text
+  recommendations String?       @db.Text
+  notes           String?       @db.Text
+  
+  // File Attachments
+  reportFileUrl   String?       // PDF report file
+  imageUrls       String[]      // Array of image URLs (X-rays, scans, etc.)
+  
+  // Email Notifications
+  emailNotificationSent   Boolean?  @default(false)
+  emailNotificationSentAt DateTime?
+  
+  // Timestamps
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  // Relations
+  testResults     TestResult[]
+  
+  @@index([patientId, testDate])
+  @@index([status, reportDate])
+  @@index([testTypeId, testDate])
+  @@index([reportNumber])
+}
+
+model TestResult {
+  id            String     @id @default(uuid())
+  testReportId  String
+  testReport    TestReport @relation(fields: [testReportId], references: [id], onDelete: Cascade)
+  
+  // Parameter Details
+  parameterName String     // e.g., "Hemoglobin", "White Blood Cells", "Glucose"
+  value         String     // The actual test value
+  unit          String?    // Unit of measurement (mg/dL, g/dL, etc.)
+  referenceRange String?   // Normal range for this parameter
+  status        ResultStatus @default(NORMAL)
+  
+  // Additional Information
+  method        String?    // Test method used
+  notes         String?    @db.Text
+  
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  
+  @@index([testReportId])
+  @@index([parameterName])
+}
+
+enum TestReportStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  REVIEWED
+  CANCELLED
+}
+
+enum ResultStatus {
+  NORMAL
+  ABNORMAL
+  HIGH
+  LOW
+  CRITICAL
+}
