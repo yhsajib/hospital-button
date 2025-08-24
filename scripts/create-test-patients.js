@@ -10,36 +10,31 @@ async function createTestPatients() {
       clerkUserId: 'test_patient_1',
       email: 'john.doe@example.com',
       name: 'John Doe',
-      role: 'PATIENT',
-      credits: 5
+      role: 'PATIENT'
     },
     {
       clerkUserId: 'test_patient_2', 
       email: 'jane.smith@example.com',
       name: 'Jane Smith',
-      role: 'PATIENT',
-      credits: 3
+      role: 'PATIENT'
     },
     {
       clerkUserId: 'test_patient_3',
       email: 'mike.johnson@example.com', 
       name: 'Mike Johnson',
-      role: 'PATIENT',
-      credits: 2
+      role: 'PATIENT'
     },
     {
       clerkUserId: 'test_patient_4',
       email: 'sarah.wilson@example.com',
       name: 'Sarah Wilson', 
-      role: 'PATIENT',
-      credits: 4
+      role: 'PATIENT'
     },
     {
       clerkUserId: 'test_patient_5',
       email: 'david.brown@example.com',
       name: 'David Brown',
-      role: 'PATIENT', 
-      credits: 6
+      role: 'PATIENT'
     }
   ];
 

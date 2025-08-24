@@ -17,7 +17,7 @@ export default function DoctorsPage() {
     ? SPECIALTIES.filter(specialty => selectedSpecialties.includes(specialty.name))
     : [];
 
-  const handleSpecialtyClick = async (specialtyName) => {
+  const handleSpecialtyClick = async (specialtyName) => {    
     setSelectedSpecialty(specialtyName);
     setLoadingDoctors(true);
     
@@ -158,14 +158,6 @@ export default function DoctorsPage() {
                               </div>
                             </div>
                             <div className="flex gap-2 mt-3">
-                              <Link href={`/doctors/${doctor.specialty}/${doctor.id}`} className="flex-1">
-                                <button className="w-full px-3 py-2 text-xs border border-emerald-200 text-emerald-600 hover:bg-emerald-50 rounded-md transition-colors flex items-center justify-center gap-1">
-                                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                  </svg>
-                                  View Profile
-                                </button>
-                              </Link>
                               <Link href={`/doctors/${doctor.specialty}/${doctor.id}?book=true`} className="flex-1">
                                 <button className="w-full px-3 py-2 text-xs bg-emerald-600 text-white hover:bg-emerald-700 rounded-md transition-colors flex items-center justify-center gap-1">
                                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

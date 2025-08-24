@@ -758,7 +758,7 @@ export default function BookCabinPage() {
                 
                 <p className="text-xs text-gray-500 text-center mt-3">
                   By booking, you agree to our terms and conditions. 
-                  Your booking will be confirmed via email.
+                  Your booking will be confirmed and recorded in our system.
                 </p>
               </CardContent>
             </Card>

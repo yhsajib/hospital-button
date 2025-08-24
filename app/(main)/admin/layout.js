@@ -1,7 +1,7 @@
 import { verifyAdmin } from "@/actions/admin";
 import { redirect } from "next/navigation";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ShieldCheck, AlertCircle, Users, CreditCard, Pill, Package, Bed, FileText } from "lucide-react";
+import { ShieldCheck, AlertCircle, Users, CreditCard, Pill, Package, Bed, FileText, MessageSquare } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 
 export const metadata = {
@@ -42,13 +42,7 @@ export default async function AdminLayout({ children }) {
             <Users className="h-4 w-4 mr-2 hidden md:inline" />
             <span>Doctors</span>
           </TabsTrigger>
-          <TabsTrigger
-            value="payouts"
-            className="flex-1 md:flex md:items-center md:justify-start md:px-4 md:py-3 w-full"
-          >
-            <CreditCard className="h-4 w-4 mr-2 hidden md:inline" />
-            <span>Payouts</span>
-          </TabsTrigger>
+
           <TabsTrigger
             value="medicine"
             className="flex-1 md:flex md:items-center md:justify-start md:px-4 md:py-3 w-full"
@@ -77,6 +71,14 @@ export default async function AdminLayout({ children }) {
             <FileText className="h-4 w-4 mr-2 hidden md:inline" />
             <span>Test Reports</span>
           </TabsTrigger>
+          {/* Messages Tab Hidden */}
+          {/* <TabsTrigger
+            value="messages"
+            className="flex-1 md:flex md:items-center md:justify-start md:px-4 md:py-3 w-full"
+          >
+            <MessageSquare className="h-4 w-4 mr-2 hidden md:inline" />
+            <span>Messages</span>
+          </TabsTrigger> */}
         </TabsList>
         <div className="md:col-span-3">
           {/* Render tab content based on selected value */}

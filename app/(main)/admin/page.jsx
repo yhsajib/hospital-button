@@ -1,25 +1,24 @@
 import { TabsContent } from "@/components/ui/tabs";
 import { PendingDoctors } from "./components/pending-doctors";
 import { VerifiedDoctors } from "./components/verified-doctors";
-import { PendingPayouts } from "./components/pending-payouts";
+
 import { AdminOrders } from "./components/admin-orders";
 import { AdminCabins } from "./components/admin-cabins";
 import AdminMedicinePage from "./medicine";
 import { AdminTestReports } from "./components/admin-test-reports";
+import { PatientMessages } from "./components/patient-messages";
 import {
   getPendingDoctors,
   getVerifiedDoctors,
-  getPendingPayouts,
+
 } from "@/actions/admin";
 
 export default async function AdminPage() {
   // Fetch all data in parallel
-  const [pendingDoctorsData, verifiedDoctorsData, pendingPayoutsData] =
-    await Promise.all([
-      getPendingDoctors(),
-      getVerifiedDoctors(),
-      getPendingPayouts(),
-    ]);
+  const [pendingDoctorsData, verifiedDoctorsData] = await Promise.all([
+    getPendingDoctors(),
+    getVerifiedDoctors(),
+  ]);
 
   return (
     <>
@@ -31,9 +30,7 @@ export default async function AdminPage() {
         <VerifiedDoctors doctors={verifiedDoctorsData.doctors || []} />
       </TabsContent>
 
-      <TabsContent value="payouts" className="border-none p-0">
-        <PendingPayouts payouts={pendingPayoutsData.payouts || []} />
-      </TabsContent>
+
 
       <AdminMedicinePage />
 
@@ -47,6 +44,10 @@ export default async function AdminPage() {
 
       <TabsContent value="test-reports" className="border-none p-0">
         <AdminTestReports />
+      </TabsContent>
+
+      <TabsContent value="messages" className="border-none p-0">
+        <PatientMessages />
       </TabsContent>
     </>
   );

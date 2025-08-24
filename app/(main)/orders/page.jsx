@@ -20,8 +20,7 @@ import {
   Calendar,
   MapPin,
   Phone,
-  Mail,
-  CreditCard
+  Mail
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { getOrders, updateOrderStatus, cancelOrder } from '@/actions/orders';

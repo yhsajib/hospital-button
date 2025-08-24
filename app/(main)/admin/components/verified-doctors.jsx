@@ -69,7 +69,7 @@ export function VerifiedDoctors({ doctors }) {
         <CardHeader>
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <CardTitle className="text-xl font-bold text-white">
+              <CardTitle className="text-xl font-bold text-black">
                 Manage Doctors
               </CardTitle>
               <CardDescription>
@@ -111,7 +111,7 @@ export function VerifiedDoctors({ doctors }) {
                             <User className="h-5 w-5 text-emerald-400" />
                           </div>
                           <div>
-                            <h3 className="font-medium text-white">
+                            <h3 className="font-medium text-black">
                               {doctor.name}
                             </h3>
                             <p className="text-sm text-muted-foreground">

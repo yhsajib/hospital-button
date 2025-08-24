@@ -65,7 +65,7 @@ export function SlotPicker({ days, onSelectSlot }) {
               </div>
             ) : (
               <div className="space-y-3">
-                <h3 className="text-lg font-medium text-white mb-2">
+                <h3 className="text-lg font-medium text-black mb-2">
                   {day.displayDate}
                 </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
@@ -90,7 +90,7 @@ export function SlotPicker({ days, onSelectSlot }) {
                         <span
                           className={
                             selectedSlot?.startTime === slot.startTime
-                              ? "text-white"
+                              ? "text-black"
                               : "text-muted-foreground"
                           }
                         >

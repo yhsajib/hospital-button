@@ -21,7 +21,6 @@ model User {
   updatedAt         DateTime  @updatedAt
   
   // Patient-specific fields
-  credits           Int       @default(2) // Accumulated credit balance
   
   // Doctor-specific fields
   specialty         String?
@@ -34,11 +33,11 @@ model User {
   patientAppointments Appointment[] @relation("PatientAppointments")
   doctorAppointments  Appointment[] @relation("DoctorAppointments")
   availabilities      Availability[]
-  transactions        CreditTransaction[]
-  payouts             Payout[]
+
   orders              Order[]
   cabinBookings       CabinBooking[]    @relation("PatientCabinBookings")
   testReports         TestReport[]
+  patientMessages     PatientMessage[]  @relation("PatientMessages")
 }
 
 enum UserRole {
@@ -95,45 +94,7 @@ enum AppointmentStatus {
   CANCELLED
 }
 
-model CreditTransaction {
-  id                String   @id @default(uuid())
-  userId            String
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  amount            Int      // Positive for additions, negative for usage
-  type              TransactionType
-  packageId         String?  // Reference to which package was purchased
-  createdAt         DateTime @default(now())
-}
 
-enum TransactionType {
-  CREDIT_PURCHASE     // Credits purchased through Clerk Billing
-  APPOINTMENT_DEDUCTION // Credit used for appointment
-  ADMIN_ADJUSTMENT      // Manual adjustment by admin
-}
-
-model Payout {
-  id              String        @id @default(uuid())
-  doctorId        String
-  doctor          User          @relation(fields: [doctorId], references: [id], onDelete: Cascade)
-  amount          Float         // Total payout amount in USD
-  credits         Int           // Number of credits being paid out
-  platformFee     Float         // Platform fee deducted (2 USD per credit)
-  netAmount       Float         // Amount doctor receives (8 USD per credit)
-  paypalEmail     String        // Doctor's PayPal email for payout
-  status          PayoutStatus  @default(PROCESSING)
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  processedAt     DateTime?     // When admin marked it as processed
-  processedBy     String?       // Admin who processed it
-
-  @@index([status, createdAt])
-  @@index([doctorId, status])
-}
-
-enum PayoutStatus {
-  PROCESSING
-  PROCESSED
-}
 
 model Medicine {
   id          String   @id @default(uuid())
@@ -398,9 +359,7 @@ model TestReport {
   reportFileUrl   String?       // PDF report file
   imageUrls       String[]      // Array of image URLs (X-rays, scans, etc.)
   
-  // Email Notifications
-  emailNotificationSent   Boolean?  @default(false)
-  emailNotificationSentAt DateTime?
+  // Email notifications removed
   
   // Timestamps
   createdAt       DateTime      @default(now())
@@ -452,4 +411,64 @@ enum ResultStatus {
   HIGH
   LOW
   CRITICAL
+}
+
+// Patient-Admin Communication Models
+model PatientMessage {
+  id              String            @id @default(uuid())
+  messageNumber   String            @unique // Human-readable message number
+  
+  // Patient Information
+  patientId       String
+  patient         User              @relation("PatientMessages", fields: [patientId], references: [id], onDelete: Cascade)
+  
+  // Message Content
+  subject         String
+  message         String            @db.Text
+  messageType     MessageType       @default(GENERAL)
+  priority        MessagePriority   @default(NORMAL)
+  status          MessageStatus     @default(PENDING)
+  
+  // File Attachments (for prescriptions, medical documents)
+  attachments     String[]          // Array of file URLs
+  
+  // Admin Response
+  adminResponse   String?           @db.Text
+  respondedBy     String?           // Admin user ID who responded
+  respondedAt     DateTime?
+  
+  // Timestamps
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  
+  // Email notifications removed
+  
+  @@index([patientId, createdAt])
+  @@index([status, createdAt])
+  @@index([messageType, status])
+  @@index([messageNumber])
+}
+
+enum MessageType {
+  GENERAL           // General inquiry
+  PRESCRIPTION      // Prescription submission
+  MEDICAL_UPDATE    // Medical condition update
+  APPOINTMENT       // Appointment related
+  BILLING           // Billing inquiry
+  COMPLAINT         // Complaint or feedback
+}
+
+enum MessagePriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum MessageStatus {
+  PENDING           // Waiting for admin response
+  IN_PROGRESS       // Admin is working on it
+  RESPONDED         // Admin has responded
+  RESOLVED          // Issue resolved
+  CLOSED            // Message closed
 }

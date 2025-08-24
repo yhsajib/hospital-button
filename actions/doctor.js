@@ -223,48 +223,7 @@ export async function cancelAppointment(formData) {
         },
       });
 
-      // Always refund credits to patient and deduct from doctor
-      // Create credit transaction for patient (refund)
-      await tx.creditTransaction.create({
-        data: {
-          userId: appointment.patientId,
-          amount: 2,
-          type: "APPOINTMENT_DEDUCTION",
-        },
-      });
-
-      // Create credit transaction for doctor (deduction)
-      await tx.creditTransaction.create({
-        data: {
-          userId: appointment.doctorId,
-          amount: -2,
-          type: "APPOINTMENT_DEDUCTION",
-        },
-      });
-
-      // Update patient's credit balance (increment)
-      await tx.user.update({
-        where: {
-          id: appointment.patientId,
-        },
-        data: {
-          credits: {
-            increment: 2,
-          },
-        },
-      });
-
-      // Update doctor's credit balance (decrement)
-      await tx.user.update({
-        where: {
-          id: appointment.doctorId,
-        },
-        data: {
-          credits: {
-            decrement: 2,
-          },
-        },
-      });
+      // Appointment cancelled - no credit transactions needed
     });
 
     // Determine which path to revalidate based on user role

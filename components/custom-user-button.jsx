@@ -30,11 +30,6 @@ export default function CustomUserButton({ user }) {
       user?.role === "PATIENT" && (
         <UserButton.MenuItems>
           <UserButton.Link
-            label="My Profile"
-            labelIcon={<User size={16} />}
-            href="/profile"
-          />
-          <UserButton.Link
             label="My Orders"
             labelIcon={<DotIcon />}
             href="/orders"

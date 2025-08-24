@@ -114,7 +114,7 @@ export default function AdminMedicinePage() {
     return (
       <TabsContent value="medicine" className="border-none p-0">
         <div className="flex justify-center items-center h-64">
-          <div className="text-lg text-white">Loading medicines...</div>
+          <div className="text-lg text-black">Loading medicines...</div>
         </div>
       </TabsContent>
     );
@@ -137,7 +137,7 @@ export default function AdminMedicinePage() {
         {/* Add New Medicine Card */}
         <Card className="bg-muted/20 border-emerald-900/20">
           <CardHeader>
-            <CardTitle className="text-xl font-bold text-white flex items-center gap-2">
+            <CardTitle className="text-xl font-bold text-black flex items-center gap-2">
               <Plus className="h-5 w-5 text-emerald-400" />
               Add New Medicine
             </CardTitle>
@@ -154,7 +154,7 @@ export default function AdminMedicinePage() {
                   value={addForm.name} 
                   onChange={handleAddChange} 
                   placeholder="Medicine name" 
-                  className="border border-emerald-900/30 rounded-md px-3 py-2 w-40 bg-background text-white focus:border-emerald-500 focus:outline-none" 
+                  className="border border-emerald-900/30 rounded-md px-3 py-2 w-40 bg-background text-black focus:border-emerald-500 focus:outline-none" 
                 />
               </div>
               <div className="space-y-2">
@@ -164,7 +164,7 @@ export default function AdminMedicinePage() {
                   value={addForm.genericName} 
                   onChange={handleAddChange} 
                   placeholder="Generic name" 
-                  className="border border-emerald-900/30 rounded-md px-3 py-2 w-40 bg-background text-white focus:border-emerald-500 focus:outline-none" 
+                  className="border border-emerald-900/30 rounded-md px-3 py-2 w-40 bg-background text-black focus:border-emerald-500 focus:outline-none" 
                 />
               </div>
               <div className="space-y-2">
@@ -174,7 +174,7 @@ export default function AdminMedicinePage() {
                   value={addForm.brandName} 
                   onChange={handleAddChange} 
                   placeholder="Brand name" 
-                  className="border border-emerald-900/30 rounded-md px-3 py-2 w-40 bg-background text-white focus:border-emerald-500 focus:outline-none" 
+                  className="border border-emerald-900/30 rounded-md px-3 py-2 w-40 bg-background text-black focus:border-emerald-500 focus:outline-none" 
                 />
               </div>
               <div className="space-y-2">
@@ -184,7 +184,7 @@ export default function AdminMedicinePage() {
                   value={addForm.description} 
                   onChange={handleAddChange} 
                   placeholder="Description" 
-                  className="border border-emerald-900/30 rounded-md px-3 py-2 w-60 bg-background text-white focus:border-emerald-500 focus:outline-none" 
+                  className="border border-emerald-900/30 rounded-md px-3 py-2 w-60 bg-background text-black focus:border-emerald-500 focus:outline-none" 
                 />
               </div>
               <div className="space-y-2">
@@ -195,7 +195,7 @@ export default function AdminMedicinePage() {
                   value={addForm.price} 
                   onChange={handleAddChange} 
                   placeholder="0.00" 
-                  className="border border-emerald-900/30 rounded-md px-3 py-2 w-24 bg-background text-white focus:border-emerald-500 focus:outline-none" 
+                  className="border border-emerald-900/30 rounded-md px-3 py-2 w-24 bg-background text-black focus:border-emerald-500 focus:outline-none" 
                 />
               </div>
               <div className="space-y-2">
@@ -206,7 +206,7 @@ export default function AdminMedicinePage() {
                   value={addForm.stock} 
                   onChange={handleAddChange} 
                   placeholder="0" 
-                  className="border border-emerald-900/30 rounded-md px-3 py-2 w-24 bg-background text-white focus:border-emerald-500 focus:outline-none" 
+                  className="border border-emerald-900/30 rounded-md px-3 py-2 w-24 bg-background text-black focus:border-emerald-500 focus:outline-none" 
                 />
               </div>
               <Button 
@@ -223,7 +223,7 @@ export default function AdminMedicinePage() {
         {/* Medicines List Card */}
         <Card className="bg-muted/20 border-emerald-900/20">
           <CardHeader>
-            <CardTitle className="text-xl font-bold text-white flex items-center gap-2">
+            <CardTitle className="text-xl font-bold text-black flex items-center gap-2">
               <Pill className="h-5 w-5 text-emerald-400" />
               Medicine Inventory
             </CardTitle>
@@ -253,7 +253,7 @@ export default function AdminMedicinePage() {
                                 name="name" 
                                 value={editForm.name} 
                                 onChange={handleEditChange} 
-                                className="border border-emerald-900/30 rounded-md px-3 py-2 w-full bg-background text-white focus:border-emerald-500 focus:outline-none" 
+                                className="border border-emerald-900/30 rounded-md px-3 py-2 w-full bg-background text-black focus:border-emerald-500 focus:outline-none" 
                               />
                             </div>
                             <div className="space-y-2">
@@ -262,7 +262,7 @@ export default function AdminMedicinePage() {
                                 name="genericName" 
                                 value={editForm.genericName} 
                                 onChange={handleEditChange} 
-                                className="border border-emerald-900/30 rounded-md px-3 py-2 w-full bg-background text-white focus:border-emerald-500 focus:outline-none" 
+                                className="border border-emerald-900/30 rounded-md px-3 py-2 w-full bg-background text-black focus:border-emerald-500 focus:outline-none" 
                               />
                             </div>
                             <div className="space-y-2">
@@ -271,7 +271,7 @@ export default function AdminMedicinePage() {
                                 name="brandName" 
                                 value={editForm.brandName} 
                                 onChange={handleEditChange} 
-                                className="border border-emerald-900/30 rounded-md px-3 py-2 w-full bg-background text-white focus:border-emerald-500 focus:outline-none" 
+                                className="border border-emerald-900/30 rounded-md px-3 py-2 w-full bg-background text-black focus:border-emerald-500 focus:outline-none" 
                               />
                             </div>
                             <div className="space-y-2">
@@ -280,7 +280,7 @@ export default function AdminMedicinePage() {
                                 name="description" 
                                 value={editForm.description} 
                                 onChange={handleEditChange} 
-                                className="border border-emerald-900/30 rounded-md px-3 py-2 w-full bg-background text-white focus:border-emerald-500 focus:outline-none" 
+                                className="border border-emerald-900/30 rounded-md px-3 py-2 w-full bg-background text-black focus:border-emerald-500 focus:outline-none" 
                               />
                             </div>
                             <div className="space-y-2">
@@ -290,7 +290,7 @@ export default function AdminMedicinePage() {
                                 type="number" 
                                 value={editForm.price} 
                                 onChange={handleEditChange} 
-                                className="border border-emerald-900/30 rounded-md px-3 py-2 w-full bg-background text-white focus:border-emerald-500 focus:outline-none" 
+                                className="border border-emerald-900/30 rounded-md px-3 py-2 w-full bg-background text-black focus:border-emerald-500 focus:outline-none" 
                               />
                             </div>
                             <div className="space-y-2">
@@ -300,7 +300,7 @@ export default function AdminMedicinePage() {
                                 type="number" 
                                 value={editForm.stock} 
                                 onChange={handleEditChange} 
-                                className="border border-emerald-900/30 rounded-md px-3 py-2 w-full bg-background text-white focus:border-emerald-500 focus:outline-none" 
+                                className="border border-emerald-900/30 rounded-md px-3 py-2 w-full bg-background text-black focus:border-emerald-500 focus:outline-none" 
                               />
                             </div>
                           </div>
@@ -327,7 +327,7 @@ export default function AdminMedicinePage() {
                               <Pill className="h-5 w-5 text-emerald-400" />
                             </div>
                             <div>
-                              <h3 className="font-medium text-white">
+                              <h3 className="font-medium text-black">
                                 {medicine.name}
                               </h3>
                               <div className="text-sm text-muted-foreground space-y-1">

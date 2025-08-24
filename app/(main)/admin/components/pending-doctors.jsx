@@ -66,13 +66,13 @@ export function PendingDoctors({ doctors }) {
   return (
     <div className="space-y-6">
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-emerald-900/20 to-emerald-800/10 rounded-xl border border-emerald-900/20 p-6">
+      <div className=" from-emerald-900/20 to-emerald-800/10 rounded-xl border border-emerald-900/20 p-6">
         <div className="flex items-center gap-3 mb-2">
           <div className="bg-emerald-500/20 rounded-lg p-2">
             <Clock className="h-6 w-6 text-emerald-400" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="text-2xl font-bold  text-black">
               Pending Doctor Verifications
             </h1>
             <p className="text-emerald-200/80 mt-1">
@@ -195,7 +195,7 @@ export function PendingDoctors({ doctors }) {
                   <User className="h-8 w-8 text-emerald-400" />
                 </div>
                 <div>
-                  <DialogTitle className="text-2xl font-bold text-white mb-1">
+                  <DialogTitle className="text-2xl font-bold text-black mb-1">
                     {selectedDoctor.name}
                   </DialogTitle>
                   <DialogDescription className="text-base">

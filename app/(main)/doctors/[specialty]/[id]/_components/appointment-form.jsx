@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { format } from "date-fns";
-import { Loader2, Clock, ArrowLeft, Calendar, CreditCard } from "lucide-react";
+import { Loader2, Clock, ArrowLeft, Calendar } from "lucide-react";
 import { bookAppointment } from "@/actions/appointments";
 import { toast } from "sonner";
 import useFetch from "@/hooks/use-fetch";
@@ -46,20 +46,15 @@ export function AppointmentForm({ doctorId, slot, onBack, onComplete }) {
       <div className="bg-muted/20 p-4 rounded-lg border border-emerald-900/20 space-y-3">
         <div className="flex items-center">
           <Calendar className="h-5 w-5 text-emerald-400 mr-2" />
-          <span className="text-white font-medium">
+          <span className="text-black font-medium">
             {format(new Date(slot.startTime), "EEEE, MMMM d, yyyy")}
           </span>
         </div>
         <div className="flex items-center">
           <Clock className="h-5 w-5 text-emerald-400 mr-2" />
-          <span className="text-white">{slot.formatted}</span>
+          <span className="text-black">{slot.formatted}</span>
         </div>
-        <div className="flex items-center">
-          <CreditCard className="h-5 w-5 text-emerald-400 mr-2" />
-          <span className="text-muted-foreground">
-            Cost: <span className="text-white font-medium">2 credits</span>
-          </span>
-        </div>
+
       </div>
 
       <div className="space-y-2">

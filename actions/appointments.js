@@ -3,7 +3,7 @@
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
-import { deductCreditsForAppointment } from "@/actions/credits";
+
 import { addDays, addMinutes, format, isBefore, endOfDay } from "date-fns";
 
 /**
@@ -53,10 +53,7 @@ export async function bookAppointment(formData) {
       throw new Error("Doctor not found or not verified");
     }
 
-    // Check if the patient has enough credits (2 credits per appointment)
-    if (patient.credits < 2) {
-      throw new Error("Insufficient credits to book an appointment");
-    }
+
 
     // Check if the requested time slot is available
     const overlappingAppointment = await db.appointment.findFirst({
@@ -101,15 +98,7 @@ export async function bookAppointment(formData) {
 
 
 
-    // Deduct credits from patient and add to doctor
-    const { success, error } = await deductCreditsForAppointment(
-      patient.id,
-      doctor.id
-    );
 
-    if (!success) {
-      throw new Error(error || "Failed to deduct credits");
-    }
 
     // Create the appointment with the video session ID
     const appointment = await db.appointment.create({

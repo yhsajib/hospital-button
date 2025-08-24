@@ -13,7 +13,7 @@ export default async function PricingPage() {
       <div className="flex justify-start mb-2">
         <Link
           href="/"
-          className="flex items-center text-muted-foreground hover:text-white transition-colors"
+          className="flex items-center text-muted-foreground hover:text-black transition-colors"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Home
@@ -43,7 +43,7 @@ export default async function PricingPage() {
 
       {/* FAQ Section - Optional */}
       <div className="max-w-3xl mx-auto mt-16 text-center">
-        <h2 className="text-2xl font-bold text-white mb-2">
+        <h2 className="text-2xl font-bold text-black mb-2">
           Questions? We're Here to Help
         </h2>
         <p className="text-muted-foreground mb-4">

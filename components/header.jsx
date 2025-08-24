@@ -5,7 +5,6 @@ import { Button } from "./ui/button";
 import {
   Bed,
   Calendar,
-  CreditCard,
   ShieldCheck,
   Stethoscope,
   User,
@@ -57,7 +56,7 @@ export default function Header() {
   }, [clerkUser]);
 
   return (
-    <header className="fixed top-0 w-full border-b bg-primary z-[60]">
+    <header className="fixed top-0 w-full bg-primary z-[60]">
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center md:w-1/4">
           <div className="md:hidden">

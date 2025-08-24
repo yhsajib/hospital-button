@@ -141,7 +141,7 @@ export default function ThankYouPage() {
             <div className="space-y-3 text-sm text-gray-600">
               <div className="flex items-start gap-3">
                 <div className="w-2 h-2 bg-emerald-600 rounded-full mt-2 flex-shrink-0"></div>
-                <p>You'll receive an email confirmation with your order details shortly.</p>
+                <p>Your order has been confirmed and recorded in our system.</p>
               </div>
               <div className="flex items-start gap-3">
                 <div className="w-2 h-2 bg-emerald-600 rounded-full mt-2 flex-shrink-0"></div>

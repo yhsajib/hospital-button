@@ -97,7 +97,7 @@ export default function OnboardingPage() {
             <div className="p-4 bg-emerald-900/20 rounded-full mb-4">
               <User className="h-8 w-8 text-emerald-400" />
             </div>
-            <CardTitle className="text-xl font-semibold text-white mb-2">
+            <CardTitle className="text-xl font-semibold text-black mb-2">
               Join as a Patient
             </CardTitle>
             <CardDescription className="mb-4">
@@ -128,7 +128,7 @@ export default function OnboardingPage() {
             <div className="p-4 bg-emerald-900/20 rounded-full mb-4">
               <Stethoscope className="h-8 w-8 text-emerald-400" />
             </div>
-            <CardTitle className="text-xl font-semibold text-white mb-2">
+            <CardTitle className="text-xl font-semibold text-black mb-2">
               Join as a Doctor
             </CardTitle>
             <CardDescription className="mb-4">
@@ -153,7 +153,7 @@ export default function OnboardingPage() {
       <Card className="border-emerald-900/20">
         <CardContent className="pt-6">
           <div className="mb-6">
-            <CardTitle className="text-2xl font-bold text-white mb-2">
+            <CardTitle className="text-2xl font-bold text-black mb-2">
               Complete Your Doctor Profile
             </CardTitle>
             <CardDescription>

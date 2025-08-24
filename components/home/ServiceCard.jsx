@@ -1,7 +1,7 @@
 import { Eye, Stethoscope, Microscope, Heart, Scissors } from 'lucide-react';
 import Link from "next/link";
 
-const ServiceCard = ({ icon, title, description, link }) => (
+const ServiceCard = ({ icon, title, description, link, linktext }) => (
   <div className="flex h-full flex-col rounded-lg bg-background p-6 shadow-sm transition-transform hover:-translate-y-1">
     <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-secondary/20 text-secondary">
       {icon}
@@ -12,7 +12,7 @@ const ServiceCard = ({ icon, title, description, link }) => (
       href={link}
       className="mt-auto inline-block text-sm font-medium text-secondary hover:underline"
     >
-      Learn More →
+     {linktext} →
     </Link>
   </div>
 );
@@ -24,35 +24,40 @@ const ServiceGrid = () => {
       icon: <Eye size={24} />,
       title: "Cabin Booking",
       description: "Book your hospital cabin effortlessly online, securing your comfort with real-time availability",
-      link: "/cabins"
+      link: "/cabins",
+      linktext: "Book Now"
     },
     {
       id: "medical-checkup",
       icon: <Stethoscope size={24} />,
       title: "Medical Update",
       description: "Get notification about any medical emergency or medical need.",
-      link: "/medical-update"
+      link: "/medical-update",
+      linktext: "Learn More"
     },
     {
       id: "online-pharmacy",
       icon: <Scissors size={24} />,
       title: "Online Pharmacy",
       description: "Order your prescribed medicines online, Make online payment and you patient will get them in few minutes.",
-      link: "/shop"
+      link: "/shop",
+      linktext: "Order Now"
     },
     {
       id: "test-reports",
       icon: <Microscope size={24} />,
       title: "Online Test Report",
       description: "Access your test results anytime, anywhere, securely and instantly online.",
-      link: "/test-reports"
+      link: "/test-reports",
+      linktext: "View Reports"
     },
     {
       id: "patient-care",
       icon: <Heart size={24} />,
       title: "Patient-Centered",
       description: "Focused on patient needs with personalized care plans tailored to your unique health profile.",
-      link: "/services/patient-care"
+      link: "/services/patient-care",
+      linktext: "Learn More"
     }
   ];
 
@@ -76,6 +81,7 @@ const ServiceGrid = () => {
               title={service.title}
               description={service.description}
               link={service.link}
+              linktext={service.linktext}
             />
           ))}
         </div>

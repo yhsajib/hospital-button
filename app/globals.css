@@ -79,7 +79,9 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 }
-
+.text-gray-900 {
+    color: oklch(1 0 0)!important;
+}
 
 
 @layer base {
@@ -189,7 +191,7 @@ body{
   transform: translateX(0px);
 }
 svg.humanMaleBodyImg {
-    height: 600px;
+    height: 420px;
 }
 /* end Human Anatomy */
 
@@ -198,4 +200,9 @@ svg.humanMaleBodyImg {
 }
 span.gradient-title {
 color: rgb(248 164 133 / var(--tw-text-opacity, 1))
+}
+
+
+.tabs-wrapper.text-muted-foreground.inline-flex.w-fit.items-center.justify-center.rounded-lg.p-\[3px\].bg-white.tab-list-1 {
+    min-height: 100px!Important;
 }

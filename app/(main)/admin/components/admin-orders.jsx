@@ -20,7 +20,6 @@ import {
   Mail,
   Phone,
   MapPin,
-  CreditCard,
   RefreshCw
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
@@ -147,7 +146,7 @@ export function AdminOrders() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white">Order Management</h1>
+          <h1 className="text-2xl font-bold text-black">Order Management</h1>
           <p className="text-muted-foreground">Manage and track all customer orders</p>
         </div>
         <Button onClick={fetchOrders} variant="outline" size="sm">
@@ -161,7 +160,7 @@ export function AdminOrders() {
         <Card>
           <CardContent className="p-4">
             <div className="text-center">
-              <div className="text-2xl font-bold text-white">{stats.total}</div>
+              <div className="text-2xl font-bold text-black">{stats.total}</div>
               <div className="text-xs text-muted-foreground">Total Orders</div>
             </div>
           </CardContent>
@@ -299,13 +298,13 @@ export function AdminOrders() {
                       <tr key={order.id} className="border-b hover:bg-muted/50">
                         <td className="p-4">
                           <div>
-                            <div className="font-medium text-white">{order.orderNumber}</div>
+                            <div className="font-medium text-black">{order.orderNumber}</div>
                             <div className="text-sm text-muted-foreground">{order.id}</div>
                           </div>
                         </td>
                         <td className="p-4">
                           <div>
-                            <div className="font-medium text-white flex items-center gap-2">
+                            <div className="font-medium text-black flex items-center gap-2">
                               <User className="h-4 w-4" />
                               {order.customerName}
                             </div>
@@ -327,7 +326,7 @@ export function AdminOrders() {
                           </div>
                         </td>
                         <td className="p-4">
-                          <div className="font-medium text-white">
+                          <div className="font-medium text-black">
                             ${order.totalAmount?.toFixed(2) || '0.00'}
                           </div>
                         </td>

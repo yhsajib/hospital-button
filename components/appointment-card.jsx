@@ -278,7 +278,7 @@ export function AppointmentCard({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold text-gray-900">
+            <DialogTitle className="text-xl font-bold text-black">
               Appointment Details
             </DialogTitle>
             <DialogDescription>
@@ -299,7 +299,7 @@ export function AppointmentCard({
                   {otherPartyIcon}
                 </div>
                 <div>
-                  <p className="text-gray-900 font-medium">
+                  <p className="text-black font-medium">
                     {userRole === "DOCTOR"
                       ? otherParty.name
                       : `Dr. ${otherParty.name}`}
@@ -326,13 +326,13 @@ export function AppointmentCard({
               <div className="flex flex-col gap-1">
                 <div className="flex items-center">
                   <Calendar className="h-5 w-5 text-emerald-400 mr-2" />
-                  <p className="text-gray-900">
+                  <p className="text-black">
                     {formatDateTime(appointment.startTime)}
                   </p>
                 </div>
                 <div className="flex items-center">
                   <Clock className="h-5 w-5 text-emerald-400 mr-2" />
-                  <p className="text-gray-900">
+                  <p className="text-black">
                     {formatTime(appointment.startTime)} -{" "}
                     {formatTime(appointment.endTime)}
                   </p>

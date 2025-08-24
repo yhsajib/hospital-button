@@ -15,7 +15,7 @@ const Footer = () => {
                   <path d="M8 16H24" stroke="#f8a485" strokeWidth="3" strokeLinecap="round" />
                 </svg>
               </div>
-              <span className="text-xl font-bold">Hospital Button</span>
+              <span className="text-xl font-bold text-black">Hospital Button</span>
             </a>
             <p className="mb-6 text-sm text-gray-600">
               We provide the highest quality healthcare services with a focus on patient comfort and modern treatments.
@@ -71,7 +71,7 @@ const Footer = () => {
 
          
           <div>
-            <h3 className="mb-4 text-lg font-semibold text-gray-900">Quick Links</h3>
+            <h3 className="mb-4 text-lg font-semibold text-black">Quick Links</h3>
             <ul className="space-y-3">
               <li>
                 <a href="/about" className="text-gray-600 hover:text-emerald-600">
@@ -103,11 +103,11 @@ const Footer = () => {
 
           
           <div>
-            <h3 className="mb-4 text-lg font-semibold text-gray-900">Contact Details</h3>
+            <h3 className="mb-4 text-lg font-semibold text-black">Contact Details</h3>
             <ul className="space-y-3">
               <li className="flex items-start gap-2">
                 <MapPin size={18} className="mt-1 shrink-0 text-gray-600" />
-                <span>Gulshan, Plot 18, Rd No 71, Dhaka 1212</span>
+                <span className="text-black">Gulshan, Plot 18, Rd No 71, Dhaka 1212</span>
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={18} className="shrink-0 text-gray-600" />
@@ -123,7 +123,7 @@ const Footer = () => {
               </li>
               <li className="flex items-start gap-2">
                 <Clock size={18} className="mt-1 shrink-0 text-gray-600" />
-                <span>
+                <span className="text-black">
                   8:00 - 17:00
                   <br />
                   Monday - Friday
@@ -134,7 +134,7 @@ const Footer = () => {
 
        
           <div>
-            <h3 className="mb-4 text-lg font-semibold text-gray-900">Newsletter</h3>
+            <h3 className="mb-4 text-lg font-semibold text-black">Newsletter</h3>
             <p className="mb-4 text-sm text-gray-600">
               Stay informed and receive our latest news and special offers.
             </p>
@@ -142,7 +142,7 @@ const Footer = () => {
               <input
                 type="email"
                 placeholder="Your Email Address"
-                className="rounded bg-white border border-gray-300 p-2 text-gray-900 placeholder:text-gray-500"
+                className="rounded bg-white border border-gray-300 p-2 text-black placeholder:text-gray-500"
                 aria-label="Email Address"
               />
               <button

@@ -41,17 +41,7 @@ export function DoctorCard({ doctor }) {
               {doctor.description}
             </div>
 
-            <div className="flex gap-2 mt-2">
-              <Button
-                asChild
-                variant="outline"
-                className="flex-1 border-emerald-300 hover:bg-emerald-100"
-              >
-                <Link href={`/doctors/${doctor.specialty}/${doctor.id}`}>
-                  <User className="h-4 w-4 mr-2" />
-                  View Profile
-                </Link>
-              </Button>
+            <div className="flex gap-2 mt-2"> 
               <Button
                 asChild
                 className="flex-1 bg-emerald-500 hover:bg-emerald-600"

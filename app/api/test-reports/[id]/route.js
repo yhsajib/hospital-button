@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/prisma';
 import { auth } from '@clerk/nextjs/server';
-import { sendTestReportUpdateNotification } from '@/lib/email-service';
 
 // GET - Fetch single test report
 export async function GET(request, { params }) {
@@ -180,15 +179,7 @@ export async function PUT(request, { params }) {
       return report;
     });
 
-    // Send email notification for status changes to completed or reviewed
-    if (status && (status === 'COMPLETED' || status === 'REVIEWED')) {
-      try {
-        await sendTestReportUpdateNotification(updatedTestReport.id);
-      } catch (error) {
-        console.error('Failed to send email notification:', error);
-        // Don't fail the request if email fails
-      }
-    }
+    // Email notifications have been removed
 
     return NextResponse.json({ testReport: updatedTestReport });
   } catch (error) {

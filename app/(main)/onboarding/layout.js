@@ -30,7 +30,7 @@ export default async function OnboardingLayout({ children }) {
     <div className="container mx-auto px-4 py-12">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-3xl font-bold text-black mb-2">
             Welcome to MediMeet
           </h1>
           <p className="text-muted-foreground text-lg">

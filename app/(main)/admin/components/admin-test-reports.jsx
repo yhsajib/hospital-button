@@ -48,6 +48,7 @@ export function AdminTestReports() {
   const [isCreateTypeDialogOpen, setIsCreateTypeDialogOpen] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   // Form states
   const [reportForm, setReportForm] = useState({
@@ -293,6 +294,52 @@ export function AdminTestReports() {
       }
     } catch (error) {
       toast.error('Failed to create test type');
+    }
+  };
+
+  // Handle update test report
+  const handleUpdateReport = async (e) => {
+    e.preventDefault();
+    if (!selectedReport) return;
+    
+    setIsUpdating(true);
+    try {
+      const response = await fetch(`/api/test-reports/${selectedReport.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(reportForm),
+      });
+      
+      const data = await response.json();
+      if (response.ok) {
+        toast.success('Test report updated successfully');
+        setIsEditDialogOpen(false);
+        setSelectedReport(null);
+        setReportForm({
+          patientId: "",
+          testTypeId: "",
+          testDate: "",
+          reportDate: "",
+          conductedBy: "",
+          reviewedBy: "",
+          summary: "",
+          findings: "",
+          recommendations: "",
+          notes: "",
+          status: "PENDING",
+          testResults: [],
+          attachments: []
+        });
+        fetchTestReports();
+      } else {
+        toast.error(data.error || 'Failed to update test report');
+      }
+    } catch (error) {
+      toast.error('Failed to update test report');
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -709,6 +756,7 @@ export function AdminTestReports() {
                     <Button
                       variant="outline"
                       size="sm"
+                      disabled={isUpdating}
                       onClick={() => {
                         setSelectedReport(report);
                         setReportForm({
@@ -728,7 +776,11 @@ export function AdminTestReports() {
                         setIsEditDialogOpen(true);
                       }}
                     >
-                      <Edit className="h-4 w-4" />
+                      {isUpdating ? (
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current" />
+                      ) : (
+                        <Edit className="h-4 w-4" />
+                      )}
                     </Button>
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
@@ -840,6 +892,173 @@ export function AdminTestReports() {
               )}
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Report Dialog */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Edit Test Report</DialogTitle>
+            <DialogDescription>
+              Update the test report information
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleUpdateReport} className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="editPatientId">Patient</Label>
+                <Select value={reportForm.patientId} onValueChange={(value) => setReportForm({...reportForm, patientId: value})}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select patient" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {patients.map((patient) => (
+                      <SelectItem key={patient.id} value={patient.id}>
+                        {patient.name} - {patient.email}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="editTestTypeId">Test Type</Label>
+                <Select value={reportForm.testTypeId} onValueChange={(value) => setReportForm({...reportForm, testTypeId: value})}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select test type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {testTypes.map((type) => (
+                      <SelectItem key={type.id} value={type.id}>
+                        {type.name} ({type.category})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="editTestDate">Test Date</Label>
+                <Input
+                  id="editTestDate"
+                  type="datetime-local"
+                  value={reportForm.testDate}
+                  onChange={(e) => setReportForm({...reportForm, testDate: e.target.value})}
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="editReportDate">Report Date</Label>
+                <Input
+                  id="editReportDate"
+                  type="datetime-local"
+                  value={reportForm.reportDate}
+                  onChange={(e) => setReportForm({...reportForm, reportDate: e.target.value})}
+                />
+              </div>
+              <div>
+                <Label htmlFor="editConductedBy">Conducted By</Label>
+                <Input
+                  id="editConductedBy"
+                  value={reportForm.conductedBy}
+                  onChange={(e) => setReportForm({...reportForm, conductedBy: e.target.value})}
+                  placeholder="Doctor/Technician name"
+                />
+              </div>
+              <div>
+                <Label htmlFor="editReviewedBy">Reviewed By</Label>
+                <Input
+                  id="editReviewedBy"
+                  value={reportForm.reviewedBy}
+                  onChange={(e) => setReportForm({...reportForm, reviewedBy: e.target.value})}
+                  placeholder="Reviewing doctor name"
+                />
+              </div>
+            </div>
+            
+            <div>
+              <Label htmlFor="editStatus">Status</Label>
+              <Select value={reportForm.status} onValueChange={(value) => setReportForm({...reportForm, status: value})}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="PENDING">Pending</SelectItem>
+                  <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
+                  <SelectItem value="COMPLETED">Completed</SelectItem>
+                  <SelectItem value="REVIEWED">Reviewed</SelectItem>
+                  <SelectItem value="CANCELLED">Cancelled</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div>
+              <Label htmlFor="editSummary">Summary</Label>
+              <Textarea
+                id="editSummary"
+                value={reportForm.summary}
+                onChange={(e) => setReportForm({...reportForm, summary: e.target.value})}
+                placeholder="Brief summary of the test results..."
+                rows={3}
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="editFindings">Findings</Label>
+              <Textarea
+                id="editFindings"
+                value={reportForm.findings}
+                onChange={(e) => setReportForm({...reportForm, findings: e.target.value})}
+                placeholder="Detailed findings from the test..."
+                rows={4}
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="editRecommendations">Recommendations</Label>
+              <Textarea
+                id="editRecommendations"
+                value={reportForm.recommendations}
+                onChange={(e) => setReportForm({...reportForm, recommendations: e.target.value})}
+                placeholder="Medical recommendations based on results..."
+                rows={3}
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="editNotes">Additional Notes</Label>
+              <Textarea
+                id="editNotes"
+                value={reportForm.notes}
+                onChange={(e) => setReportForm({...reportForm, notes: e.target.value})}
+                placeholder="Any additional notes or observations..."
+                rows={2}
+              />
+            </div>
+            
+            <DialogFooter>
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={() => {
+                  setIsEditDialogOpen(false);
+                  setSelectedReport(null);
+                }}
+                disabled={isUpdating}
+              >
+                Cancel
+              </Button>
+              <Button type="submit" disabled={isUpdating}>
+                {isUpdating ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2" />
+                    Updating...
+                  </>
+                ) : (
+                  'Update Report'
+                )}
+              </Button>
+            </DialogFooter>
+          </form>
         </DialogContent>
       </Dialog>
     </div>

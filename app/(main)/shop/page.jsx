@@ -11,6 +11,7 @@ import { getMedicines } from "@/actions/shop";
 import { Pill, ShoppingCart, Package, Filter, ChevronLeft, ChevronRight } from "lucide-react";
 import toast, { Toaster } from 'react-hot-toast';
 import Link from "next/link";
+import Preloader from "@/components/preloader";
 
 export default function ShopPage() {
   const [medicines, setMedicines] = useState([]);
@@ -19,6 +20,8 @@ export default function ShopPage() {
   const [error, setError] = useState(null);
   const [cartItems, setCartItems] = useState([]);
   const [cartCount, setCartCount] = useState(0);
+  const [addingToCart, setAddingToCart] = useState(null);
+  const [navigatingToCart, setNavigatingToCart] = useState(false);
   
   // Filter states
   const [selectedBrands, setSelectedBrands] = useState([]);
@@ -137,7 +140,12 @@ export default function ShopPage() {
     setCurrentPage(Math.max(1, Math.min(page, totalPages)));
   };
 
-  const handleAddToCart = (medicine) => {
+  const handleAddToCart = async (medicine) => {
+    setAddingToCart(medicine.id);
+    
+    // Simulate API delay for better UX
+    await new Promise(resolve => setTimeout(resolve, 800));
+    
     const existingItem = cartItems.find(item => item.id === medicine.id);
     let updatedItems;
     
@@ -165,7 +173,18 @@ export default function ShopPage() {
     localStorage.setItem('cartCount', newCartCount.toString());
     
     toast.success(`${medicine.name} added to cart!`);
+    setAddingToCart(null);
    };
+
+  const handleCartNavigation = async () => {
+    setNavigatingToCart(true);
+    
+    // Simulate navigation delay for better UX
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Navigate to cart page
+    window.location.href = '/cart';
+  };
 
   if (loading) {
     return (
@@ -192,14 +211,16 @@ export default function ShopPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Toaster position="top-right" />
+    <>
+      <Preloader isLoading={navigatingToCart} />
+      <div className="min-h-screen bg-gray-50">
+        <Toaster position="top-right" />
       
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="container mx-auto px-4 py-6">
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2 flex items-center justify-center gap-2">
+            <h1 className="text-3xl font-bold text-black mb-2 flex items-center justify-center gap-2">
               <Pill className="h-8 w-8 text-blue-600" />
               Medicine Shop
             </h1>
@@ -216,7 +237,7 @@ export default function ShopPage() {
           <div className={`${sidebarOpen ? 'w-80' : 'w-12'} transition-all duration-300 flex-shrink-0`}>
             <div className="bg-white rounded-lg shadow-sm border p-6 sticky top-4">
               <div className="flex items-center justify-between mb-6">
-                <h2 className={`text-lg font-semibold text-gray-900 flex items-center gap-2 ${!sidebarOpen && 'hidden'}`}>
+                <h2 className={`text-lg font-semibold text-black flex items-center gap-2 ${!sidebarOpen && 'hidden'}`}>
                   <Filter className="h-5 w-5" />
                   Filters
                 </h2>
@@ -362,11 +383,20 @@ export default function ShopPage() {
                           </div>
                           <Button 
                             onClick={() => handleAddToCart(medicine)}
-                            disabled={medicine.stock === 0}
+                            disabled={medicine.stock === 0 || addingToCart === medicine.id}
                             className="bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
                           >
-                            <ShoppingCart className="h-4 w-4 mr-2" />
-                            Add to Cart
+                            {addingToCart === medicine.id ? (
+                              <>
+                                <div className="w-4 h-4 border-2 border-white/30 rounded-full animate-spin border-t-white mr-2"></div>
+                                Adding...
+                              </>
+                            ) : (
+                              <>
+                                <ShoppingCart className="h-4 w-4 mr-2" />
+                                Add to Cart
+                              </>
+                            )}
                           </Button>
                         </div>
                       </CardContent>
@@ -421,16 +451,23 @@ export default function ShopPage() {
       </div>
       
       {/* Cart Button - Always visible in middle-right */}
-      <Link href="/cart">
-        <Button className="fixed top-1/2 right-6 transform -translate-y-1/2 h-14 w-14 rounded-full bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 z-50">
+      <Button 
+        onClick={handleCartNavigation}
+        disabled={navigatingToCart}
+        className="fixed top-1/2 right-6 transform -translate-y-1/2 h-14 w-14 rounded-full bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 z-50 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+      >
+        {navigatingToCart ? (
+          <div className="w-6 h-6 border-2 border-white/30 rounded-full animate-spin border-t-white"></div>
+        ) : (
           <ShoppingCart className="h-6 w-6" />
-          {cartCount > 0 && (
-            <Badge className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-red-500 text-white text-xs flex items-center justify-center p-0 min-w-[24px]">
-              {cartCount > 99 ? '99+' : cartCount}
-            </Badge>
-          )}
-        </Button>
-      </Link>
-    </div>
+        )}
+        {cartCount > 0 && !navigatingToCart && (
+          <Badge className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-red-500 text-white text-xs flex items-center justify-center p-0 min-w-[24px]">
+            {cartCount > 99 ? '99+' : cartCount}
+          </Badge>
+        )}
+      </Button>
+      </div>
+    </>
   );
 }

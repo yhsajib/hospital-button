@@ -4,7 +4,7 @@ import { ArrowRight, Stethoscope } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { creditBenefits, features, testimonials } from "@/lib/data";
+import { features, testimonials } from "@/lib/data";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CheckCircle } from 'lucide-react';
 import Services from "@/components/home/services";
@@ -28,7 +28,7 @@ export default function Home() {
                 Connect with doctors <br />
                 <span className="gradient-title">anytime, anywhere</span>
               </h1>
-              <p className="text-gray-700 text-lg md:text-xl max-w-md">
+              <p className="text-white text-lg md:text-xl max-w-md">
                 Book appointments, consult via video, and manage your healthcare
                 journey all in one secure platform.
               </p>
@@ -111,7 +111,7 @@ export default function Home() {
               <h2 className="mb-6 text-3xl font-bold text-primary md:text-4xl">
                 Our Best Services & Popular Treatment Here.
               </h2>
-              <p className="mb-8 text-gray-600">
+              <p className="mb-8 text-black">
               Our platform combines traditional medical services with modern technology, allowing you to book appointments, select your preferred doctor, view real-time availability, and access test reports, all online. We offer comprehensive care, from consultation to admission, with the convenience of digital service.
               </p>
 

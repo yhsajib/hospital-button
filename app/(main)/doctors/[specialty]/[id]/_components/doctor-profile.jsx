@@ -97,7 +97,7 @@ export function DoctorProfile({ doctor, availableDays }) {
                   )}
                 </div>
 
-                <h2 className="text-xl font-bold text-white mb-1">
+                <h2 className="text-xl font-bold text-black mb-1">
                   Dr. {doctor.name}
                 </h2>
 
@@ -141,7 +141,7 @@ export function DoctorProfile({ doctor, availableDays }) {
       <div className="md:col-span-2 space-y-6">
         <Card className="border-emerald-900/20">
           <CardHeader>
-            <CardTitle className="text-xl font-bold text-white">
+            <CardTitle className="text-xl font-bold text-black">
               About Dr. {doctor.name}
             </CardTitle>
             <CardDescription>
@@ -152,7 +152,7 @@ export function DoctorProfile({ doctor, availableDays }) {
             <div className="space-y-4">
               <div className="flex items-center gap-2">
                 <FileText className="h-5 w-5 text-emerald-400" />
-                <h3 className="text-white font-medium">Description</h3>
+                <h3 className="text-black font-medium">Description</h3>
               </div>
               <p className="text-muted-foreground whitespace-pre-line">
                 {doctor.description}
@@ -164,7 +164,7 @@ export function DoctorProfile({ doctor, availableDays }) {
             <div className="space-y-4">
               <div className="flex items-center gap-2">
                 <Clock className="h-5 w-5 text-emerald-400" />
-                <h3 className="text-white font-medium">Availability</h3>
+                <h3 className="text-black font-medium">Availability</h3>
               </div>
               {totalSlots > 0 ? (
                 <div className="flex items-center">
@@ -192,7 +192,7 @@ export function DoctorProfile({ doctor, availableDays }) {
           <div id="booking-section">
             <Card className="border-emerald-900/20">
               <CardHeader>
-                <CardTitle className="text-xl font-bold text-white">
+                <CardTitle className="text-xl font-bold text-black">
                   Book an Appointment
                 </CardTitle>
                 <CardDescription>
@@ -223,7 +223,7 @@ export function DoctorProfile({ doctor, availableDays }) {
                 ) : (
                   <div className="text-center py-6">
                     <Calendar className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
-                    <h3 className="text-xl font-medium text-white mb-2">
+                    <h3 className="text-xl font-medium text-black mb-2">
                       No available slots
                     </h3>
                     <p className="text-muted-foreground">

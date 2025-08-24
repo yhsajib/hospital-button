@@ -8,7 +8,7 @@ const Services = () => {
       <div className="container mx-auto">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">          
           <div className="rounded-lg bg-secondary p-6 text-primary shadow-lg">
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-white">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-black">
               <Phone size={24} />
             </div>
             <h3 className="mb-2 text-xl font-semibold">Schedule your medical consultation</h3>
@@ -24,7 +24,7 @@ const Services = () => {
           </div>
 
           
-          <div className="rounded-lg bg-primary p-6 text-white shadow-lg">
+          <div className="rounded-lg bg-primary p-6 text-black shadow-lg">
             <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-secondary text-primary">
               <Users size={24} />
             </div>
@@ -42,7 +42,7 @@ const Services = () => {
 
           
           <div className="rounded-lg bg-secondary p-6 text-primary shadow-lg">
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-white">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-black">
               <Clock size={24} />
             </div>
             <h3 className="mb-2 text-xl font-semibold">24 Hours Service</h3>

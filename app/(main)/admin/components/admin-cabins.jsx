@@ -809,7 +809,7 @@ export function AdminCabins() {
 
       {/* Tabs for Cabins and Bookings */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList>
+        <TabsList className="bg-white tab-list-1">
           <TabsTrigger value="cabins">Cabins ({cabins.length})</TabsTrigger>
           <TabsTrigger value="bookings">Bookings ({bookings.length})</TabsTrigger>
           <TabsTrigger value="availability">Availability ({availabilities.length})</TabsTrigger>

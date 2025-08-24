@@ -58,7 +58,7 @@ export default function BookAppointmentPage() {
         {/* Step 1: Body Part & Department Selection */}
         <Card className="border-emerald-900/20">
           <CardHeader>
-            <CardTitle className="text-2xl font-bold text-white flex items-center">
+            <CardTitle className="text-2xl font-bold text-black flex items-center">
               <Stethoscope className="h-6 w-6 mr-2 text-emerald-400" />
               Select Body Part & Department
             </CardTitle>
@@ -69,7 +69,7 @@ export default function BookAppointmentPage() {
           <CardContent className="space-y-6">
             {/* Body Part Selector */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-white">Step 1: Select Body Part (Optional)</h3>
+              <h3 className="text-lg font-semibold text-black">Step 1: Select Body Part (Optional)</h3>
               <p className="text-muted-foreground text-sm">
                 Click on a body part to automatically suggest relevant medical departments
               </p>
@@ -78,13 +78,13 @@ export default function BookAppointmentPage() {
 
             {/* Department Selection */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-white">Step 2: Choose Medical Department</h3>
+              <h3 className="text-lg font-semibold text-black">Step 2: Choose Medical Department</h3>
               {selectedSpecialties.length > 0 && (
                 <div className="bg-emerald-900/20 border border-emerald-900/30 rounded-lg p-4">
                   <p className="text-emerald-400 text-sm font-medium mb-2">
                     Suggested departments based on your selection:
                   </p>
-                  <p className="text-white">
+                  <p className="text-black">
                     {selectedSpecialties.join(", ")}
                   </p>
                 </div>
@@ -157,7 +157,7 @@ export default function BookAppointmentPage() {
                 <User className="h-5 w-5 text-emerald-400" />
               </div>
               <div>
-                <h4 className="font-semibold text-white mb-2">How it works</h4>
+                <h4 className="font-semibold text-black mb-2">How it works</h4>
                 <ul className="text-muted-foreground text-sm space-y-1">
                   <li>1. Select a body part or choose a department directly</li>
                   <li>2. Browse available doctors in that specialty</li>

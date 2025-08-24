@@ -57,21 +57,21 @@ export default function ServicesPage() {
         <h2 className="text-2xl font-semibold mb-6 text-center">How It Works</h2>
         <div className="grid md:grid-cols-3 gap-8">
           <div className="text-center">
-            <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-12 h-12 bg-primary text-black rounded-full flex items-center justify-center mx-auto mb-4">
               1
             </div>
             <h3 className="font-medium mb-2">Create an Account</h3>
             <p className="text-gray-600 text-sm">Sign up and complete your profile with your medical history and preferences.</p>
           </div>
           <div className="text-center">
-            <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-12 h-12 bg-primary text-black rounded-full flex items-center justify-center mx-auto mb-4">
               2
             </div>
             <h3 className="font-medium mb-2">Book an Appointment</h3>
             <p className="text-gray-600 text-sm">Choose a doctor and schedule a consultation at your preferred time.</p>
           </div>
           <div className="text-center">
-            <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-12 h-12 bg-primary text-black rounded-full flex items-center justify-center mx-auto mb-4">
               3
             </div>
             <h3 className="font-medium mb-2">Receive Care</h3>

@@ -38,7 +38,7 @@ export default async function VerificationPage() {
                 <ClipboardCheck className="h-8 w-8 text-amber-400" />
               )}
             </div>
-            <CardTitle className="text-2xl font-bold text-white">
+            <CardTitle className="text-2xl font-bold text-black">
               {isRejected
                 ? "Verification Declined"
                 : "Verification in Progress"}
