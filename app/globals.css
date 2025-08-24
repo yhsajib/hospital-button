@@ -43,8 +43,8 @@
 }
 
 :root {
-  --text-color: #f8a485;
-  --primary-theme: #09352e;
+  --text-color: #0f766e;
+  --primary-theme: #0f766e;
   
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -53,6 +53,7 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.4 0.15 180);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -99,7 +100,7 @@
   @apply gradient font-bold text-transparent bg-clip-text pb-1 pr-2;
 }
 body{
-  background-color: rgb(251 242 241 / var(--tw-bg-opacity, 1));
+  background-color: #ffffff;
 }
 .bg-primary {
   background-color: var(--primary-theme);
@@ -186,6 +187,9 @@ body{
 .bodyParts_group:hover .labelGroup .labelText {
   fill: #f58220 !important;
   transform: translateX(0px);
+}
+svg.humanMaleBodyImg {
+    height: 600px;
 }
 /* end Human Anatomy */
 

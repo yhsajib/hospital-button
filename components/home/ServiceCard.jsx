@@ -24,7 +24,7 @@ const ServiceGrid = () => {
       icon: <Eye size={24} />,
       title: "Cabin Booking",
       description: "Book your hospital cabin effortlessly online, securing your comfort with real-time availability",
-      link: "/room-booking"
+      link: "/cabins"
     },
     {
       id: "medical-checkup",
@@ -38,7 +38,7 @@ const ServiceGrid = () => {
       icon: <Scissors size={24} />,
       title: "Online Pharmacy",
       description: "Order your prescribed medicines online, Make online payment and you patient will get them in few minutes.",
-      link: "/online-pharmacy"
+      link: "/shop"
     },
     {
       id: "test-reports",

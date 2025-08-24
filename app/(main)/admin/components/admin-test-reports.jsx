@@ -13,6 +13,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { FileText, Plus, Edit, Trash2, Eye, Search, Filter, Download, Upload, X, File } from "lucide-react";
 import { downloadTestReportPDF } from '@/lib/pdf-generator';
+import { getAllPatients } from '@/actions/admin';
 import { toast } from "sonner";
 
 const statusColors = {
@@ -37,6 +38,7 @@ export function AdminTestReports() {
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [patientSearchTerm, setPatientSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [testTypeFilter, setTestTypeFilter] = useState("all");
   const [selectedReport, setSelectedReport] = useState(null);
@@ -175,11 +177,12 @@ export function AdminTestReports() {
 
   const fetchPatients = async () => {
     try {
-      // This would need to be implemented in your API
-      // For now, we'll use a placeholder
-      setPatients([]);
+      const result = await getAllPatients();
+      console.log('Fetched patients:', result);
+      setPatients(result.patients || []);
     } catch (error) {
       console.error('Failed to fetch patients:', error);
+      toast.error('Failed to fetch patients');
     } finally {
       setLoading(false);
     }
@@ -409,14 +412,42 @@ export function AdminTestReports() {
               <form onSubmit={handleCreateReport} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="patientId">Patient ID</Label>
-                    <Input
-                      id="patientId"
-                      value={reportForm.patientId}
-                      onChange={(e) => setReportForm({...reportForm, patientId: e.target.value})}
-                      placeholder="Patient ID"
-                      required
-                    />
+                    <Label htmlFor="patientId">Patient</Label>
+                    <Select value={reportForm.patientId} onValueChange={(value) => setReportForm({...reportForm, patientId: value})} onOpenChange={(open) => { if (!open) setPatientSearchTerm(""); }}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a patient" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <div className="p-2">
+                          <Input
+                            placeholder="Search patients..."
+                            value={patientSearchTerm}
+                            onChange={(e) => setPatientSearchTerm(e.target.value)}
+                            className="mb-2"
+                          />
+                        </div>
+                        {patients
+                          .filter(patient => 
+                            patient.name.toLowerCase().includes(patientSearchTerm.toLowerCase()) ||
+                            patient.email.toLowerCase().includes(patientSearchTerm.toLowerCase()) ||
+                            patient.id.toLowerCase().includes(patientSearchTerm.toLowerCase())
+                          )
+                          .map((patient) => (
+                             <SelectItem key={patient.id} value={patient.id}>
+                               {patient.name}
+                             </SelectItem>
+                           ))}
+                        {patients.filter(patient => 
+                          patient.name.toLowerCase().includes(patientSearchTerm.toLowerCase()) ||
+                          patient.email.toLowerCase().includes(patientSearchTerm.toLowerCase()) ||
+                          patient.id.toLowerCase().includes(patientSearchTerm.toLowerCase())
+                        ).length === 0 && patientSearchTerm && (
+                          <div className="p-2 text-sm text-muted-foreground text-center">
+                            No patients found matching "{patientSearchTerm}"
+                          </div>
+                        )}
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div>
                     <Label htmlFor="testTypeId">Test Type</Label>

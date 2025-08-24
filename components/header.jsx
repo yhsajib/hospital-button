@@ -32,15 +32,27 @@ export default function Header() {
         },
         body: JSON.stringify({ clerkUserId: clerkUser.id })
       })
-        .then(res => res.json())
+        .then(res => {
+          if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+          return res.json();
+        })
         .then(data => {
           console.log('API Response:', data);
           if (data.user) {
             console.log('User role:', data.user.role);
             setUser(data.user);
+          } else if (data.error) {
+            console.error('API Error:', data.error);
           }
         })
-        .catch(console.error);
+        .catch(error => {
+          console.error('Fetch error:', error);
+        });
+    } else {
+      // Reset user state when clerkUser is null
+      setUser(null);
     }
   }, [clerkUser]);
 
@@ -64,22 +76,22 @@ export default function Header() {
         
         {/* Navigation Links - Centered */}
         <div className="hidden md:flex items-center justify-center space-x-8 flex-1">
-          <Link href="/" className="text-white hover:text-gray-200 font-medium">
+          <Link href="/" className="text-gray-900 hover:text-gray-700 font-medium">
             Home
           </Link>
-          <Link href="/about" className="text-white hover:text-gray-200 font-medium">
+          <Link href="/about" className="text-gray-900 hover:text-gray-700 font-medium">
             About us
           </Link>
-          <Link href="/shop" className="text-white hover:text-gray-200 font-medium">
+          <Link href="/shop" className="text-gray-900 hover:text-gray-700 font-medium">
             Phirmacy
           </Link>
-          <Link href="/cabins" className="text-white hover:text-gray-200 font-medium">
+          <Link href="/cabins" className="text-gray-900 hover:text-gray-700 font-medium">
             Cabins
           </Link>
-          <Link href="/services" className="text-white hover:text-gray-200 font-medium">
+          <Link href="/services" className="text-gray-900 hover:text-gray-700 font-medium">
             Services
           </Link>
-          <Link href="/contact" className="text-white hover:text-gray-200 font-medium">
+          <Link href="/contact" className="text-gray-900 hover:text-gray-700 font-medium">
             Contact us
           </Link>
         </div>
@@ -132,8 +144,7 @@ export default function Header() {
                   </Button>
                 </Link>
               </>
-            )}
-
+            )}            
             {/* Unassigned Role */}
             {user?.role === "UNASSIGNED" && (
               <Link href="/onboarding">

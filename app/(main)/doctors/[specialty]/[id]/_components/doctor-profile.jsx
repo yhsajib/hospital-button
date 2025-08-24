@@ -1,9 +1,9 @@
 // /app/doctors/[id]/_components/doctor-profile.jsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   User,
   Calendar,
@@ -32,6 +32,21 @@ export function DoctorProfile({ doctor, availableDays }) {
   const [showBooking, setShowBooking] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Check if user came from "Book Now" button and auto-show booking section
+  useEffect(() => {
+    const shouldBook = searchParams.get('book');
+    if (shouldBook === 'true') {
+      setShowBooking(true);
+      // Scroll to booking section after component mounts
+      setTimeout(() => {
+        document.getElementById('booking-section')?.scrollIntoView({
+          behavior: 'smooth',
+        });
+      }, 500);
+    }
+  }, [searchParams]);
 
   // Calculate total available slots
   const totalSlots = availableDays?.reduce(

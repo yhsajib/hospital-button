@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/prisma';
+import { checkUser } from '@/lib/checkUser';
 import { auth } from '@clerk/nextjs/server';
 
 export async function POST(request) {
@@ -17,26 +17,25 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 
-    const user = await db.user.findUnique({
-      where: {
-        clerkUserId: clerkUserId
-      },
-      select: {
-        id: true,
-        clerkUserId: true,
-        email: true,
-        name: true,
-        role: true,
-        createdAt: true,
-        updatedAt: true
-      }
-    });
+    // Use checkUser which will create the user if they don't exist
+    const user = await checkUser();
 
     if (!user) {
-      return NextResponse.json({ error: 'User not found in database' }, { status: 404 });
+      return NextResponse.json({ error: 'Failed to get or create user' }, { status: 500 });
     }
 
-    return NextResponse.json({ user });
+    // Return only the necessary user data
+    const userData = {
+      id: user.id,
+      clerkUserId: user.clerkUserId,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt
+    };
+
+    return NextResponse.json({ user: userData });
   } catch (error) {
     console.error('Debug user API error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

@@ -1,16 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Metadata } from 'next';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-
-export const metadata = {
-  title: 'Contact Us | Medimeet',
-  description: 'Get in touch with the Medimeet team for any questions or support',
-};
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({

@@ -22,7 +22,7 @@ export default function HumanAnatomy({ onPartClick, onPartHover, onPartLeave, ho
   };
 
   return (
-    <div className="human-anatomy">
+    <div className="human-anatomy-body">
       <svg xmlns="http://www.w3.org/2000/svg" className="humanMaleBodyImg"
         viewBox="140 10 1450 1500" xmlSpace="preserve" style={{ maxWidth: '3000px', width: '100%' }}>
         <g className="bodyParts_wrapper Head">

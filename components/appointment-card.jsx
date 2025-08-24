@@ -9,7 +9,6 @@ import {
   Calendar,
   Clock,
   User,
-  Video,
   Stethoscope,
   X,
   Edit,
@@ -30,7 +29,7 @@ import {
   addAppointmentNotes,
   markAppointmentCompleted,
 } from "@/actions/doctor";
-import { generateVideoToken } from "@/actions/appointments";
+
 import useFetch from "@/hooks/use-fetch";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -41,7 +40,7 @@ export function AppointmentCard({
   refetchAppointments,
 }) {
   const [open, setOpen] = useState(false);
-  const [action, setAction] = useState(null); // 'cancel', 'notes', 'video', or 'complete'
+  const [action, setAction] = useState(null); // 'cancel', 'notes', or 'complete'
   const [notes, setNotes] = useState(appointment.notes || "");
   const router = useRouter();
 
@@ -56,11 +55,7 @@ export function AppointmentCard({
     fn: submitNotes,
     data: notesData,
   } = useFetch(addAppointmentNotes);
-  const {
-    loading: tokenLoading,
-    fn: submitTokenRequest,
-    data: tokenData,
-  } = useFetch(generateVideoToken);
+
   const {
     loading: completeLoading,
     fn: submitMarkCompleted,
@@ -146,16 +141,7 @@ export function AppointmentCard({
     await submitNotes(formData);
   };
 
-  // Handle join video call
-  const handleJoinVideoCall = async () => {
-    if (tokenLoading) return;
 
-    setAction("video");
-
-    const formData = new FormData();
-    formData.append("appointmentId", appointment.id);
-    await submitTokenRequest(formData);
-  };
 
   // Handle successful operations
   useEffect(() => {
@@ -194,30 +180,9 @@ export function AppointmentCard({
     }
   }, [notesData, refetchAppointments, router]);
 
-  useEffect(() => {
-    if (tokenData?.success) {
-      // Redirect to video call page with token and session ID
-      router.push(
-        `/video-call?sessionId=${tokenData.videoSessionId}&token=${tokenData.token}&appointmentId=${appointment.id}`
-      );
-    } else if (tokenData?.error) {
-      setAction(null);
-    }
-  }, [tokenData, appointment.id, router]);
 
-  // Determine if appointment is active (within 30 minutes of start time)
-  const isAppointmentActive = () => {
-    const now = new Date();
-    const appointmentTime = new Date(appointment.startTime);
-    const appointmentEndTime = new Date(appointment.endTime);
 
-    // Can join 30 minutes before start until end time
-    return (
-      (appointmentTime.getTime() - now.getTime() <= 30 * 60 * 1000 &&
-        now < appointmentTime) ||
-      (now >= appointmentTime && now <= appointmentEndTime)
-    );
-  };
+
 
   // Determine other party information based on user role
   const otherParty =
@@ -228,7 +193,7 @@ export function AppointmentCard({
 
   return (
     <>
-      <Card className="border-emerald-900/20 hover:border-emerald-700/30 transition-all">
+      <Card className="border-emerald-200 hover:border-emerald-300 transition-all">
         <CardContent className="p-4">
           <div className="flex flex-col md:flex-row justify-between gap-4">
             <div className="flex items-start gap-3">
@@ -236,7 +201,7 @@ export function AppointmentCard({
                 {otherPartyIcon}
               </div>
               <div>
-                <h3 className="font-medium text-white">
+                <h3 className="font-medium text-gray-900">
                   {userRole === "DOCTOR"
                     ? otherParty.name
                     : `Dr. ${otherParty.name}`}
@@ -269,10 +234,10 @@ export function AppointmentCard({
                 variant="outline"
                 className={
                   appointment.status === "COMPLETED"
-                    ? "bg-emerald-900/20 border-emerald-900/30 text-emerald-400"
+                    ? "bg-emerald-100 border-emerald-300 text-emerald-700"
                     : appointment.status === "CANCELLED"
-                    ? "bg-red-900/20 border-red-900/30 text-red-400"
-                    : "bg-amber-900/20 border-amber-900/30 text-amber-400"
+                    ? "bg-red-100 border-red-300 text-red-700"
+                    : "bg-amber-100 border-amber-300 text-amber-700"
                 }
               >
                 {appointment.status}
@@ -313,7 +278,7 @@ export function AppointmentCard({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold text-white">
+            <DialogTitle className="text-xl font-bold text-gray-900">
               Appointment Details
             </DialogTitle>
             <DialogDescription>
@@ -334,7 +299,7 @@ export function AppointmentCard({
                   {otherPartyIcon}
                 </div>
                 <div>
-                  <p className="text-white font-medium">
+                  <p className="text-gray-900 font-medium">
                     {userRole === "DOCTOR"
                       ? otherParty.name
                       : `Dr. ${otherParty.name}`}
@@ -361,13 +326,13 @@ export function AppointmentCard({
               <div className="flex flex-col gap-1">
                 <div className="flex items-center">
                   <Calendar className="h-5 w-5 text-emerald-400 mr-2" />
-                  <p className="text-white">
+                  <p className="text-gray-900">
                     {formatDateTime(appointment.startTime)}
                   </p>
                 </div>
                 <div className="flex items-center">
                   <Clock className="h-5 w-5 text-emerald-400 mr-2" />
-                  <p className="text-white">
+                  <p className="text-gray-900">
                     {formatTime(appointment.startTime)} -{" "}
                     {formatTime(appointment.endTime)}
                   </p>
@@ -384,10 +349,10 @@ export function AppointmentCard({
                 variant="outline"
                 className={
                   appointment.status === "COMPLETED"
-                    ? "bg-emerald-900/20 border-emerald-900/30 text-emerald-400"
+                    ? "bg-emerald-100 border-emerald-300 text-emerald-700"
                     : appointment.status === "CANCELLED"
-                    ? "bg-red-900/20 border-red-900/30 text-red-400"
-                    : "bg-amber-900/20 border-amber-900/30 text-amber-400"
+                    ? "bg-red-100 border-red-300 text-red-700"
+                    : "bg-amber-100 border-amber-300 text-amber-700"
                 }
               >
                 {appointment.status}
@@ -402,43 +367,15 @@ export function AppointmentCard({
                     ? "Patient Description"
                     : "Your Description"}
                 </h4>
-                <div className="p-3 rounded-md bg-muted/20 border border-emerald-900/20">
-                  <p className="text-white whitespace-pre-line">
+                <div className="p-3 rounded-md bg-gray-50 border border-emerald-200">
+                  <p className="text-gray-900 whitespace-pre-line">
                     {appointment.patientDescription}
                   </p>
                 </div>
               </div>
             )}
 
-            {/* Join Video Call Button */}
-            {appointment.status === "SCHEDULED" && (
-              <div className="space-y-2">
-                <h4 className="text-sm font-medium text-muted-foreground">
-                  Video Consultation
-                </h4>
-                <Button
-                  className="w-full bg-emerald-600 hover:bg-emerald-700"
-                  disabled={
-                    !isAppointmentActive() || action === "video" || tokenLoading
-                  }
-                  onClick={handleJoinVideoCall}
-                >
-                  {tokenLoading || action === "video" ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Preparing Video Call...
-                    </>
-                  ) : (
-                    <>
-                      <Video className="h-4 w-4 mr-2" />
-                      {isAppointmentActive()
-                        ? "Join Video Call"
-                        : "Video call will be available 30 minutes before appointment"}
-                    </>
-                  )}
-                </Button>
-              </div>
-            )}
+
 
             {/* Doctor Notes (Doctor can view/edit, Patient can only view) */}
             <div className="space-y-2">
@@ -453,7 +390,7 @@ export function AppointmentCard({
                       variant="ghost"
                       size="sm"
                       onClick={() => setAction("notes")}
-                      className="h-7 text-emerald-400 hover:text-emerald-300 hover:bg-emerald-900/20"
+                      className="h-7 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-100"
                     >
                       <Edit className="h-3.5 w-3.5 mr-1" />
                       {appointment.notes ? "Edit" : "Add"}
@@ -467,7 +404,7 @@ export function AppointmentCard({
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     placeholder="Enter your clinical notes here..."
-                    className="bg-background border-emerald-900/20 min-h-[100px]"
+                    className="bg-white border-emerald-200 min-h-[100px]"
                   />
                   <div className="flex justify-end space-x-2">
                     <Button
@@ -479,7 +416,7 @@ export function AppointmentCard({
                         setNotes(appointment.notes || "");
                       }}
                       disabled={notesLoading}
-                      className="border-emerald-900/30"
+                      className="border-emerald-300"
                     >
                       Cancel
                     </Button>
@@ -501,9 +438,9 @@ export function AppointmentCard({
                   </div>
                 </div>
               ) : (
-                <div className="p-3 rounded-md bg-muted/20 border border-emerald-900/20 min-h-[80px]">
+                <div className="p-3 rounded-md bg-gray-50 border border-emerald-200 min-h-[80px]">
                   {appointment.notes ? (
-                    <p className="text-white whitespace-pre-line">
+                    <p className="text-gray-900 whitespace-pre-line">
                       {appointment.notes}
                     </p>
                   ) : (
@@ -545,7 +482,7 @@ export function AppointmentCard({
                   variant="outline"
                   onClick={handleCancelAppointment}
                   disabled={cancelLoading}
-                  className="border-red-900/30 text-red-400 hover:bg-red-900/10 mt-3 sm:mt-0"
+                  className="border-red-300 text-red-600 hover:bg-red-50 mt-3 sm:mt-0"
                 >
                   {cancelLoading ? (
                     <>

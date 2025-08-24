@@ -20,15 +20,15 @@ export default function Home() {
             <div className="space-y-8">
               <Badge
                 variant="outline"
-                className="bg-emerald-900/30 border-emerald-700/30 px-4 py-2 text-emerald-400 text-sm font-medium"
+                className="bg-emerald-100 border-emerald-300 px-4 py-2 text-emerald-700 text-sm font-medium"
               >
                 Healthcare made simple
               </Badge>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
                 Connect with doctors <br />
                 <span className="gradient-title">anytime, anywhere</span>
               </h1>
-              <p className="text-white text-lg md:text-xl max-w-md">
+              <p className="text-gray-700 text-lg md:text-xl max-w-md">
                 Book appointments, consult via video, and manage your healthcare
                 journey all in one secure platform.
               </p>
@@ -47,7 +47,7 @@ export default function Home() {
                     <Button
                       variant="outline"
                       size="lg"
-                      className="border-emerald-700/30 hover:bg-muted/80"
+                      className="border-emerald-300 hover:bg-gray-100"
                     >
                       Watch Video
                     </Button>
@@ -166,7 +166,7 @@ export default function Home() {
           <div className="text-center mb-16">
             <Badge
               variant="outline"
-              className="bg-emerald-900/30 text-primary border-emerald-700/30 px-4 py-1 text-sm font-medium mb-4"
+              className="bg-emerald-100 text-emerald-700 border-emerald-300 px-4 py-1 text-sm font-medium mb-4"
             >
               Success Stories
             </Badge>
@@ -182,12 +182,12 @@ export default function Home() {
             {testimonials.map((testimonial, index) => (
               <Card
                 key={index}
-                className="border-emerald-900/20 hover:border-emerald-800/40 transition-all"
+                className="border-emerald-200 hover:border-emerald-300 transition-all"
               >
                 <CardContent className="pt-6">
                   <div className="flex items-center mb-4">
-                    <div className="w-12 h-12 rounded-full bg-emerald-900/20 flex items-center justify-center mr-4">
-                      <span className="text-emerald-400 font-bold">
+                    <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center mr-4">
+                      <span className="text-emerald-700 font-bold">
                         {testimonial.initials}
                       </span>
                     </div>

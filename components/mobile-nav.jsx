@@ -32,49 +32,49 @@ export default function MobileNav() {
           </Link>
           <Link 
             href="/" 
-            className="text-white hover:text-gray-200 font-medium py-2"
+            className="text-gray-900 hover:text-gray-700 font-medium py-2"
             onClick={() => setIsOpen(false)}
           >
             Home
           </Link>
           <Link 
             href="/(main)/about" 
-            className="text-white hover:text-gray-200 font-medium py-2"
+            className="text-gray-900 hover:text-gray-700 font-medium py-2"
             onClick={() => setIsOpen(false)}
           >
             About us
           </Link>
           <Link 
             href="/shop" 
-            className="text-white hover:text-gray-200 font-medium py-2"
+            className="text-gray-900 hover:text-gray-700 font-medium py-2"
             onClick={() => setIsOpen(false)}
           >
             Phirmacy
           </Link>
           <Link 
             href="/orders" 
-            className="text-white hover:text-gray-200 font-medium py-2"
+            className="text-gray-900 hover:text-gray-700 font-medium py-2"
             onClick={() => setIsOpen(false)}
           >
             Orders
           </Link>
           <Link 
             href="/cabins" 
-            className="text-white hover:text-gray-200 font-medium py-2"
+            className="text-gray-900 hover:text-gray-700 font-medium py-2"
             onClick={() => setIsOpen(false)}
           >
             Cabins
           </Link>
           <Link 
             href="/(main)/services" 
-            className="text-white hover:text-gray-200 font-medium py-2"
+            className="text-gray-900 hover:text-gray-700 font-medium py-2"
             onClick={() => setIsOpen(false)}
           >
             Services
           </Link>
           <Link 
             href="/(main)/contact" 
-            className="text-white hover:text-gray-200 font-medium py-2"
+            className="text-gray-900 hover:text-gray-700 font-medium py-2"
             onClick={() => setIsOpen(false)}
           >
             Contact us

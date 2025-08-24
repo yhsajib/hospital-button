@@ -2,7 +2,7 @@ import { Mail, Phone, MapPin, Clock, Facebook, Twitter, Instagram, Linkedin, You
 
 const Footer = () => {
   return (
-    <footer className="bg-primary text-white">
+    <footer className="bg-gray-100 text-gray-900">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
          
@@ -17,7 +17,7 @@ const Footer = () => {
               </div>
               <span className="text-xl font-bold">Hospital Button</span>
             </a>
-            <p className="mb-6 text-sm text-gray-300">
+            <p className="mb-6 text-sm text-gray-600">
               We provide the highest quality healthcare services with a focus on patient comfort and modern treatments.
             </p>
             <div className="flex space-x-4">
@@ -71,30 +71,30 @@ const Footer = () => {
 
          
           <div>
-            <h3 className="mb-4 text-lg font-semibold text-white">Quick Links</h3>
+            <h3 className="mb-4 text-lg font-semibold text-gray-900">Quick Links</h3>
             <ul className="space-y-3">
               <li>
-                <a href="/about" className="hover:text-secondary">
+                <a href="/about" className="text-gray-600 hover:text-emerald-600">
                   About Us
                 </a>
               </li>
               <li>
-                <a href="/services" className="hover:text-secondary">
+                <a href="/services" className="text-gray-600 hover:text-emerald-600">
                   Our Services
                 </a>
               </li>
               <li>
-                <a href="/doctors" className="hover:text-secondary">
+                <a href="/doctors" className="text-gray-600 hover:text-emerald-600">
                   Our Doctors
                 </a>
               </li>
               <li>
-                <a href="/blog" className="hover:text-secondary">
+                <a href="/blog" className="text-gray-600 hover:text-emerald-600">
                   Latest News
                 </a>
               </li>
               <li>
-                <a href="/contact" className="hover:text-secondary">
+                <a href="/contact" className="text-gray-600 hover:text-emerald-600">
                   Contact Us
                 </a>
               </li>
@@ -103,26 +103,26 @@ const Footer = () => {
 
           
           <div>
-            <h3 className="mb-4 text-lg font-semibold text-white">Contact Details</h3>
+            <h3 className="mb-4 text-lg font-semibold text-gray-900">Contact Details</h3>
             <ul className="space-y-3">
               <li className="flex items-start gap-2">
-                <MapPin size={18} className="mt-1 shrink-0 text-white" />
+                <MapPin size={18} className="mt-1 shrink-0 text-gray-600" />
                 <span>Gulshan, Plot 18, Rd No 71, Dhaka 1212</span>
               </li>
               <li className="flex items-center gap-2">
-                <Mail size={18} className="shrink-0 text-white" />
-                <a href="mailto:info@medipro.com" className="hover:text-secondary">
+                <Mail size={18} className="shrink-0 text-gray-600" />
+                <a href="mailto:info@medipro.com" className="text-gray-600 hover:text-emerald-600">
                   info@hospitalbutton.com
                 </a>
               </li>
               <li className="flex items-center gap-2">
-                <Phone size={18} className="shrink-0 text-white" />
-                <a href="tel:+1234567890" className="hover:text-secondary">
+                <Phone size={18} className="shrink-0 text-gray-600" />
+                <a href="tel:+1234567890" className="text-gray-600 hover:text-emerald-600">
                   +8801717171717
                 </a>
               </li>
               <li className="flex items-start gap-2">
-                <Clock size={18} className="mt-1 shrink-0 text-white" />
+                <Clock size={18} className="mt-1 shrink-0 text-gray-600" />
                 <span>
                   8:00 - 17:00
                   <br />
@@ -134,15 +134,15 @@ const Footer = () => {
 
        
           <div>
-            <h3 className="mb-4 text-lg font-semibold text-white">Newsletter</h3>
-            <p className="mb-4 text-sm text-gray-300">
+            <h3 className="mb-4 text-lg font-semibold text-gray-900">Newsletter</h3>
+            <p className="mb-4 text-sm text-gray-600">
               Stay informed and receive our latest news and special offers.
             </p>
             <form className="flex flex-col space-y-3">
               <input
                 type="email"
                 placeholder="Your Email Address"
-                className="rounded bg-[#0c4139] p-2 text-white placeholder:text-gray-400"
+                className="rounded bg-white border border-gray-300 p-2 text-gray-900 placeholder:text-gray-500"
                 aria-label="Email Address"
               />
               <button
@@ -157,8 +157,8 @@ const Footer = () => {
       </div>
 
       
-      <div className="border-t border-[#0c4139] py-4">
-        <div className="container mx-auto px-4 text-center text-sm text-gray-400">
+      <div className="border-t border-gray-300 py-4">
+        <div className="container mx-auto px-4 text-center text-sm text-gray-600">
           © {new Date().getFullYear()} Hospital Button. All Rights Reserved.
         </div>
       </div>

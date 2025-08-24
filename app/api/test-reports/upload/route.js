@@ -4,7 +4,7 @@ import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 import { existsSync } from 'fs';
 import { nanoid } from 'nanoid';
-import { prisma } from '@/lib/prisma';
+import { db } from '@/lib/prisma';
 
 export async function POST(request) {
   try {
@@ -18,7 +18,7 @@ export async function POST(request) {
     }
 
     // Get user from database to check role
-    const user = await prisma.user.findUnique({
+    const user = await db.user.findUnique({
       where: { clerkUserId: userId },
       select: { id: true, role: true }
     });
@@ -104,7 +104,7 @@ export async function POST(request) {
     // If reportId is provided, associate files with the report
     if (reportId) {
       // Verify the report exists and user has permission to modify it
-      const report = await prisma.testReport.findUnique({
+      const report = await db.testReport.findUnique({
         where: { id: reportId },
         select: { id: true, patientId: true }
       });
@@ -117,7 +117,7 @@ export async function POST(request) {
       }
 
       // Update the report with file attachments
-      await prisma.testReport.update({
+      await db.testReport.update({
         where: { id: reportId },
         data: {
           attachments: {
@@ -166,7 +166,7 @@ export async function GET(request) {
     }
 
     // Get user from database
-    const user = await prisma.user.findUnique({
+    const user = await db.user.findUnique({
       where: { clerkUserId: userId },
       select: { id: true, role: true }
     });
@@ -179,7 +179,7 @@ export async function GET(request) {
     }
 
     // Get the test report to check permissions
-    const report = await prisma.testReport.findUnique({
+    const report = await db.testReport.findUnique({
       where: { id: reportId },
       select: { 
         id: true, 

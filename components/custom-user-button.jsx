@@ -25,23 +25,33 @@ export default function CustomUserButton({ user }) {
       }}
       afterSignOutUrl="/"
     >
-      <UserButton.MenuItems>
-        <UserButton.Link
-          label="My Orders"
-          labelIcon={<DotIcon />}
-          href="/orders"
-        />
-        <UserButton.Link
-          label="My Appointments"
-          labelIcon={<Calendar size={16} />}
-          href="/appointments"
-        />
-        <UserButton.Link
-          label="My Bookings"
-          labelIcon={<Bed size={16} />}
-          href="/bookings"
-        />
-      </UserButton.MenuItems>
+
+    {
+      user?.role === "PATIENT" && (
+        <UserButton.MenuItems>
+          <UserButton.Link
+            label="My Profile"
+            labelIcon={<User size={16} />}
+            href="/profile"
+          />
+          <UserButton.Link
+            label="My Orders"
+            labelIcon={<DotIcon />}
+            href="/orders"
+          />
+          <UserButton.Link
+            label="My Appointments"
+            labelIcon={<Calendar size={16} />}
+            href="/appointments"
+          />
+          <UserButton.Link
+            label="My Bookings"
+            labelIcon={<Bed size={16} />}
+            href="/bookings"
+          />
+        </UserButton.MenuItems>
+      )
+    }
     </UserButton>
   );
 }

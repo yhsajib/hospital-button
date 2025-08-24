@@ -386,3 +386,33 @@ export async function deleteMedicine(formData) {
     throw new Error("Failed to delete medicine: " + error.message);
   }
 }
+
+/**
+ * Gets all patients from the database
+ */
+export async function getAllPatients() {
+  const isAdmin = await verifyAdmin();
+  if (!isAdmin) throw new Error("Unauthorized");
+
+  try {
+    const patients = await db.user.findMany({
+      where: {
+        role: "PATIENT",
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        createdAt: true,
+      },
+      orderBy: {
+        name: "asc",
+      },
+    });
+
+    return { patients };
+  } catch (error) {
+    console.error("Failed to fetch patients:", error);
+    throw new Error("Failed to fetch patients: " + error.message);
+  }
+}

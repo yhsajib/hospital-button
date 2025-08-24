@@ -1,6 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { Calendar, Video, MessageSquare, Stethoscope, Clock, CreditCard } from 'lucide-react';
+import { Calendar, MessageSquare, Stethoscope, Clock, CreditCard } from 'lucide-react';
 
 export const metadata = {
   title: 'Our Services | Medimeet',
@@ -9,11 +9,6 @@ export const metadata = {
 
 export default function ServicesPage() {
   const services = [
-    {
-      title: 'Video Consultations',
-      description: 'Connect with healthcare professionals through secure video calls for diagnosis, treatment plans, and follow-ups.',
-      icon: <Video className="h-10 w-10 text-primary" />,
-    },
     {
       title: 'Appointment Scheduling',
       description: 'Book appointments with doctors at your convenience using our easy-to-use scheduling system.',
@@ -80,7 +75,7 @@ export default function ServicesPage() {
               3
             </div>
             <h3 className="font-medium mb-2">Receive Care</h3>
-            <p className="text-gray-600 text-sm">Connect with your doctor through video call and get the care you need.</p>
+            <p className="text-gray-600 text-sm">Connect with your doctor and get the care you need.</p>
           </div>
         </div>
       </div>

@@ -125,15 +125,24 @@ export default function BookAppointmentPage() {
               </p>
             </div>
 
-            {/* Continue Button */}
-            <div className="flex justify-end pt-4">
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 pt-4">
               <Button
                 onClick={handleContinue}
                 disabled={!selectedDepartment}
-                className="bg-emerald-600 hover:bg-emerald-700"
+                className="bg-emerald-600 hover:bg-emerald-700 flex-1"
                 size="lg"
               >
                 Find Doctors in {selectedDepartment || "Selected Department"}
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+              <Button
+                onClick={() => router.push('/doctors')}
+                variant="outline"
+                className="border-emerald-900/30 hover:bg-emerald-900/20 flex-1"
+                size="lg"
+              >
+                Browse All Doctors
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
